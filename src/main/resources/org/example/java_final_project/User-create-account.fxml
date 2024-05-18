@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="338.0" style="-fx-background-color: #222831;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.java_final_project.Controller.controller.User_Sign_UpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="338.0" style="-fx-background-color: #222831;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.java_final_project.Controller.Client.User_Sign_UpController">
    <children>
       <Label layoutX="23.0" layoutY="42.0" prefHeight="99.0" prefWidth="193.0" text="Let's get   started" textFill="WHITE" wrapText="true">
          <font>

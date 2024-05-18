@@ -1,11 +1,10 @@
-package org.example.java_final_project.Controller.controller;
+package org.example.java_final_project.Controller.Client;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -13,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.example.java_final_project.Controller.Client.User_loginController;
 import org.example.java_final_project.User;
 
 import java.net.URL;

@@ -1,4 +1,4 @@
-package org.example.java_final_project.Controller.controller;
+package org.example.java_final_project.Controller.Server;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
