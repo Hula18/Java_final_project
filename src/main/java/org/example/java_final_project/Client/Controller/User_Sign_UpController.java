@@ -78,7 +78,7 @@ public class User_Sign_UpController implements Initializable {
         Text_user.textProperty().addListener(((observableValue, oldValue,newValue) ->CheckFieldS()));
         Text_email.textProperty().addListener(((observableValue, oldValue,newValue) ->{
             CheckFieldS(); //Kiểm tra có empty hay ko
-            if(!CheckEmail(newValue) ){
+            if(!CheckEmail(newValue)){
                 emailCheck.setText("Bạn cần nhập một email hợp lệ");
                 emailCheck.setVisible(true);
                 checkIcon.setVisible(true);
@@ -98,8 +98,8 @@ public class User_Sign_UpController implements Initializable {
 
     private void CreateAccount() {
         String username = Text_user.getText().trim() ;
-        String email  = Text_email.getText().trim() ;
-        String password = Pass_text_password.getText();
+        String email  = Text_email.getText();
+        String password = Pass_password.isVisible() ? Pass_password.getText().trim():Pass_text_password.getText().trim();
         String request = "<Sign_Up>" ;
         if(!CheckEmail(email)) {
             alert = new Alert(Alert.AlertType.CONFIRMATION) ;
