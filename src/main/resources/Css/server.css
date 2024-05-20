@@ -21,11 +21,11 @@
     -fx-background-color:#c15c5c;
 }
 .login{
-    -fx-background-color:white;
-    -fx-background-radius:21px;
+    -fx-background-color:#C0D6E8;
+    -fx-background-radius:18px;
 }
 .login:hover{
-     -fx-background-color: #eeeeee;
+     -fx-background-color:#EEF7FF;
 }
 
 .signUp{
@@ -40,4 +40,8 @@
     -fx-background-color:black ;
     -fx-border-radius:4px ;
     -fx-background-radius:4px ;
+}
+
+.Send {
+
 }

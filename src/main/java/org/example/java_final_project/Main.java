@@ -5,14 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.java_final_project.Controller.Client.User_loginController;
+import org.example.java_final_project.Client.Controller.User_loginController;
 
 import java.io.IOException;
 
-public class User extends Application {
+public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(User.class.getResource("User.fxml"));
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("User.fxml"));
         Parent root = loader.load() ;
 
         User_loginController controller = loader.getController() ;

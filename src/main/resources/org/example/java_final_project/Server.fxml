@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="473.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.java_final_project.Controller.Server.serverController">
+<AnchorPane prefHeight="473.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.java_final_project.Server.Controller.serverController">
    <children>
       <AnchorPane opacity="0.8" prefHeight="474.0" prefWidth="576.0" style="-fx-background-color: #F9F7F7;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -74,7 +74,7 @@
                         <Glow level="0.0" />
                      </effect>
                   </AnchorPane>
-                  <AnchorPane layoutX="7.0" layoutY="21.0" prefHeight="113.0" prefWidth="235.0">
+                  <AnchorPane layoutX="7.0" layoutY="21.0" prefHeight="131.0" prefWidth="235.0">
                      <children>
                         <Label layoutX="4.0" layoutY="23.0" text="IP Address :" textFill="#35363a">
                            <font>
@@ -86,7 +86,7 @@
                               <Font name="Arial" size="13.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="port_server" layoutX="81.0" layoutY="64.0" prefHeight="26.0" prefWidth="129.0" promptText="Enter port here" style="-fx-font-family: arial;">
+                        <TextField fx:id="port_server" layoutX="81.0" layoutY="64.0" prefHeight="26.0" prefWidth="129.0" promptText="Enter port here" style="-fx-font-family: arial;" text="18100">
                            <font>
                               <Font name="Bodoni MT" size="12.0" />
                            </font>
@@ -94,6 +94,11 @@
                         <Label alignment="CENTER" layoutX="81.0" layoutY="20.0" prefHeight="26.0" prefWidth="129.0" style="-fx-border-color: black; -fx-border-radius: 3px;" text="127.0.0.1" textFill="#0e46a3">
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="91.0" layoutY="93.0" opacity="0.56" text="Port vui lòng&lt;=65535">
+                           <font>
+                              <Font name="Comic Sans MS" size="11.0" />
                            </font>
                         </Label>
                      </children>
@@ -125,7 +130,7 @@
                   <Insets left="8.0" />
                </padding>
             </Button>
-            <Button fx:id="userButton" layoutX="115.0" layoutY="271.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="79.0" styleClass="Nut" stylesheets="@../../../Css/server.css" text="User" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="userButton" layoutX="115.0" layoutY="271.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="79.0" styleClass="Nut" stylesheets="@../../../Css/server.css" text="Nhắn tin" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Consolas Bold" size="12.0" />
                </font>
@@ -137,6 +142,21 @@
                <font>
                   <Font name="Consolas" size="14.0" />
                </font></TextArea>
+            <AnchorPane fx:id="NhanTinForm" layoutX="23.0" layoutY="296.0" prefHeight="165.0" prefWidth="529.0" style="-fx-background-color: black; -fx-background-radius: 3px;" visible="false">
+               <children>
+                  <TextArea layoutX="14.0" layoutY="13.0" prefHeight="103.0" prefWidth="497.0" />
+                  <TextField layoutX="14.0" layoutY="129.0" prefHeight="25.0" prefWidth="396.0">
+                     <font>
+                        <Font name="Consolas" size="12.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="Button_send" layoutX="421.0" layoutY="129.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="SEND" textFill="#191919">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

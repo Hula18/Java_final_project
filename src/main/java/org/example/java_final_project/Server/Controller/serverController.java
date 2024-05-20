@@ -1,11 +1,10 @@
-package org.example.java_final_project.Controller.Server;
+package org.example.java_final_project.Server.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import org.example.java_final_project.Controller.Server.Server;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,7 +33,7 @@ public class serverController implements Initializable {
                                 status_OFF.setVisible(false);
                                 Start_server_button.setDisable(true);
                                 End_server_button.setDisable(false);
-                                serverCore = new Server(Integer.parseInt(port));
+                                serverCore = new server(Integer.parseInt(port));
                                 updateMessage("START SERVER ON PORT :"+port);
                             }else{
                                 alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -47,7 +46,7 @@ public class serverController implements Initializable {
                             alert = new Alert(Alert.AlertType.WARNING);
                             alert.setTitle("Thông báo");
                             alert.setHeaderText(null);
-                            alert.setContentText("Port không đúng vui lòng nhập lại!");
+                            alert.setContentText("Port vui lòng là số!");
                             alert.showAndWait() ;
                         }
                     } catch (Exception e) {
@@ -182,7 +181,7 @@ public class serverController implements Initializable {
     @FXML
     private Button userButton;
     private Alert alert ;
-    private static Server serverCore ;
+    private static server serverCore ;
     private String port ;
 
 
