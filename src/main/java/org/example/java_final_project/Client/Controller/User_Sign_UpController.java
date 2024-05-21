@@ -14,9 +14,7 @@ import org.example.java_final_project.Client.Model.UserDAO;
 import org.example.java_final_project.Main;
 
 import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +29,8 @@ public class User_Sign_UpController implements Initializable {
     private ImageView Image_confirmPassword_openEye;
     @FXML
     private ImageView checkIcon;
-
+    @FXML
+    private ImageView notEqual;
 
     /*Password*/
     @FXML
@@ -60,9 +59,11 @@ public class User_Sign_UpController implements Initializable {
     /*Label*/
     @FXML
     private Label emailCheck;
-    private Stage preSignInStage ;
-    private Alert alert ;
+    @FXML
+    private Label equalCheck;
+
     private String password,confirmPassword;
+    private Stage preSignInStage ;
     public void setPreSignInStage(Stage preSignInStage) {
         this.preSignInStage = preSignInStage;
     }
@@ -78,64 +79,33 @@ public class User_Sign_UpController implements Initializable {
         Text_user.textProperty().addListener(((observableValue, oldValue,newValue) ->CheckFieldS()));
         Text_email.textProperty().addListener(((observableValue, oldValue,newValue) ->{
             CheckFieldS(); //Kiểm tra có empty hay ko
-            if(!CheckEmail(newValue)){
-                emailCheck.setText("Bạn cần nhập một email hợp lệ");
+            if(CheckEmail(newValue)){
                 emailCheck.setVisible(true);
+                emailCheck.setText("Bạn cần nhập một email hợp lệ");
                 checkIcon.setVisible(true);
             }else {
                 checkIcon.setVisible(false);
                 emailCheck.setVisible(false);
             }
         }));
-        Pass_password.textProperty().addListener(((observableValue, oldValue,newValue) ->CheckFieldS()));
-        Pass_confirmPassword.textProperty().addListener(((observableValue, oldValue,newValue) ->CheckFieldS()));
-        Pass_text_password.textProperty().addListener(((observableValue, oldValue,newValue) ->CheckFieldS()));
-        Pass_text_confirmPassword.textProperty().addListener(((observableValue, oldValue,newValue) ->CheckFieldS()));
+        Pass_password.textProperty().addListener(((observableValue, oldValue,newValue) ->{
+            CheckFieldS(); // Kiểm tra có empty hay ko
+        }));
+        Pass_confirmPassword.textProperty().addListener(((observableValue, oldValue,newValue) -> {
+            CheckFieldS() ; // Kiểm tra có empty hay ko
+            CheckPasswordFieldS();
+        }));
+        Pass_text_password.textProperty().addListener(((observableValue, oldValue,newValue) -> {
+            CheckFieldS() ; // Kiểm tra có empty hay ko
+        }));
+        Pass_text_confirmPassword.textProperty().addListener(((observableValue, oldValue,newValue) ->{
+            CheckFieldS() ; // Kiểm tra có empty hay ko
+            CheckPasswordFieldS();
+        }));
 
         login_button.setOnAction(e->backToSignIn());
         signUp_button.setOnAction(e->CreateAccount());
     }
-
-    private void CreateAccount() {
-        String username = Text_user.getText().trim() ;
-        String email  = Text_email.getText();
-        String password = Pass_password.isVisible() ? Pass_password.getText().trim():Pass_text_password.getText().trim();
-        String request = "<Sign_Up>" ;
-        if(!CheckEmail(email)) {
-            alert = new Alert(Alert.AlertType.CONFIRMATION) ;
-            alert.setContentText("Thông tin giá trị lỗi");
-            alert.setHeaderText(null);
-            alert.showAndWait() ;
-        }else {
-            new UserDAO(username,email,password,request);
-        }
-    }
-
-    private void backToSignIn() {
-        try{
-            Runnable openSignIn = new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("User.fxml"));
-                        Parent root = fxmlLoader.load();
-
-                        User_loginController loginController = fxmlLoader.getController() ;
-                        loginController.setPrevStage(preSignInStage); // Thay đổi scene của stage chính khi cần
-
-                        preSignInStage.getScene().setRoot(root); // Thay đổi root luôn có nghĩa là như một anchar pane mà nó visiable = false
-                        System.out.println("Chuyen ve login ");
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            };
-            openSignIn.run();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
 /*Password*/
     @FXML
     void ShowPasswordOnAction(KeyEvent event) {
@@ -224,7 +194,19 @@ public class User_Sign_UpController implements Initializable {
             login_button.setDisable(false);
         }
     }
-
+    private void CheckPasswordFieldS(){
+       String Password = Pass_password.isVisible() ? Pass_password.getText() : Pass_text_password.getText() ;
+       String confirmPassword = Pass_confirmPassword.isVisible() ? Pass_confirmPassword.getText() : Pass_text_password.getText();
+       boolean checkEqual = CheckEqual(Password,confirmPassword) ;
+       if(!checkEqual){
+           notEqual.setVisible(true);
+           equalCheck.setText("Mật khẩu không trùng khớp");
+           equalCheck.setVisible(true);
+       }else {
+           notEqual.setVisible(false);
+           equalCheck.setVisible(false);
+       }
+    }
     private boolean CheckEmail(String email){
         String regexPattern ="^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
                 + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
@@ -249,6 +231,56 @@ public class User_Sign_UpController implements Initializable {
         //Tạo đối tượng Matcher
         Matcher matcher = pattern.matcher(email) ;
 
-        return matcher.matches();
+        return !matcher.matches();
+    }
+    public boolean CheckEqual(String password , String confirmPassword){
+        return confirmPassword.equals(password);
+    }
+    private void CreateAccount() {
+        String username = Text_user.getText().trim() ;
+        String email  = Text_email.getText();
+        String password = Pass_password.isVisible() ? Pass_password.getText():Pass_text_password.getText();
+        String confirmPassword = Pass_confirmPassword.isVisible() ? Pass_confirmPassword.getText() : Pass_text_password.getText() ;
+        String request = "<Sign_Up>" ;
+        /*Other*/
+        Alert alert;
+        if(CheckEmail(email)) {
+            alert = new Alert(Alert.AlertType.CONFIRMATION) ;
+            alert.setContentText("Thông tin giá trị lỗi");
+            alert.setHeaderText(null);
+            alert.showAndWait() ;
+        } else if (!CheckEqual(password,confirmPassword)) {
+            alert = new Alert(Alert.AlertType.CONFIRMATION) ;
+            alert.setContentText("Mật khẩu không trùng khớp");
+            alert.setHeaderText(null);
+            alert.showAndWait() ;
+        }
+        else {
+            new UserDAO(username,email,password,request);
+        }
+    }
+    private void backToSignIn() {
+        try{
+            Runnable openSignIn = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("User.fxml"));
+                        Parent root = fxmlLoader.load();
+
+                        User_loginController loginController = fxmlLoader.getController() ;
+                        loginController.setPrevStage(preSignInStage); // Thay đổi scene của stage chính khi cần
+
+                        preSignInStage.getScene().setRoot(root); // Thay đổi root luôn có nghĩa là như một anchar pane mà nó visiable = false
+                        System.out.println("Chuyen ve login ");
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            };
+            openSignIn.run();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
