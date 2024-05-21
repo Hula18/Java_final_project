@@ -14,12 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import org.example.java_final_project.Client.Model.UserDAO;
 import org.example.java_final_project.Main;
-import org.example.java_final_project.Server.Controller.ServerThread;
 
-import java.io.DataOutputStream;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -50,7 +46,7 @@ public class User_loginController implements Initializable {
     private PasswordField pass_hide;
     private Stage prevStage ;
     private String password;
-    private UserDAO userDAO ;
+    private ClientCore userDAO ;
 
     public void setPrevStage(Stage stage) { // Lấy dữ liệu từ stage cũ để chuyển stage mới
         this.prevStage = stage;
@@ -143,7 +139,9 @@ public class User_loginController implements Initializable {
         String password = pass.getText().trim() ;
         //Xóa đi khoảng trắng nếu người dùng khi dùng ngôn ngữ ko phải là tiếng anh
         String request = "<Login>";
-        new UserDAO(username,password,request) ;
+
+        new ClientCore(username,password,request) ;
+
     }
 
 

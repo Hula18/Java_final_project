@@ -10,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import org.example.java_final_project.Client.Model.UserDAO;
 import org.example.java_final_project.Main;
 
 import java.net.URL;
@@ -79,7 +78,7 @@ public class User_Sign_UpController implements Initializable {
         Text_user.textProperty().addListener(((observableValue, oldValue,newValue) ->CheckFieldS()));
         Text_email.textProperty().addListener(((observableValue, oldValue,newValue) ->{
             CheckFieldS(); //Kiểm tra có empty hay ko
-            if(CheckEmail(newValue)){
+            if(!CheckEmail(newValue)){
                 emailCheck.setVisible(true);
                 emailCheck.setText("Bạn cần nhập một email hợp lệ");
                 checkIcon.setVisible(true);
@@ -231,7 +230,7 @@ public class User_Sign_UpController implements Initializable {
         //Tạo đối tượng Matcher
         Matcher matcher = pattern.matcher(email) ;
 
-        return !matcher.matches();
+        return matcher.matches();
     }
     public boolean CheckEqual(String password , String confirmPassword){
         return confirmPassword.equals(password);
@@ -244,7 +243,7 @@ public class User_Sign_UpController implements Initializable {
         String request = "<Sign_Up>" ;
         /*Other*/
         Alert alert;
-        if(CheckEmail(email)) {
+        if(!CheckEmail(email)) {
             alert = new Alert(Alert.AlertType.CONFIRMATION) ;
             alert.setContentText("Thông tin giá trị lỗi");
             alert.setHeaderText(null);
@@ -256,7 +255,7 @@ public class User_Sign_UpController implements Initializable {
             alert.showAndWait() ;
         }
         else {
-            new UserDAO(username,email,password,request);
+            new ClientCore(username,email,password,request) ;
         }
     }
     private void backToSignIn() {

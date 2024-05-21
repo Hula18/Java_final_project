@@ -1,6 +1,8 @@
 module org.example.java_final_project {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
+    requires mysql.connector.j;
 
 
     opens org.example.java_final_project to javafx.fxml;

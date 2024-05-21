@@ -36,7 +36,7 @@ public class ServerThread {
     public static void checkStatus(Socket socket){
         try{
             BufferedWriter toServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())) ;
-            toServer.write("Oke\n");
+            toServer.write("<Oke>\n");
             toServer.flush();
         }catch (Exception e){
             e.printStackTrace();
