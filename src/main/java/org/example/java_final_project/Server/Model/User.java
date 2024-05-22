@@ -66,4 +66,16 @@ public class User {
     public void setPlaying(boolean playing) {
         IsPlaying = playing;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "ID=" + ID +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", IsOnline=" + IsOnline +
+                ", IsPlaying=" + IsPlaying +
+                '}';
+    }
 }

@@ -10,15 +10,18 @@ import java.net.Socket;
 public class ClientCore {
     public ClientCore(String username, String password, String request){
         Socket socket = Client.getConnect() ;
-        System.out.println(username+":"+password);
+        System.out.println(username+" : "+password);
         try {
             Thread sendRequest = new Thread(() ->SendRequest(request,socket));
-            sendRequest.start();
-            sendRequest.join();
-            Thread sendValue = new Thread(() -> Send_Login_Value(username,password,socket));
-            sendValue.start();
-            sendValue.join();
+            sendRequest.start();sendRequest.join();
 
+            Thread sendValue = new Thread(() -> Send_Login_Value(username,password,socket));
+            sendValue.start();sendValue.join();
+
+            Thread receiveInfor = new Thread(() -> GetInformation(socket));
+            receiveInfor.start();receiveInfor.join();
+
+            System.out.println(mess);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -30,8 +33,12 @@ public class ClientCore {
         try{
             Thread sendRequest = new Thread(() -> SendRequest(request,socket));
             sendRequest.start();sendRequest.join();
+
             Thread SendValue = new Thread(() -> Send_SignUp_Value(username,password,email,socket));
             SendValue.start();SendValue.join();
+
+            Thread getInfor = new Thread(() -> GetInformation(socket));
+            getInfor.start();getInfor.join();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -48,7 +55,14 @@ public class ClientCore {
             e.printStackTrace();
         }
     }  /*Gửi yêu cầu tới server*/
-
+    public void GetInformation(Socket socket){
+        try{
+            BufferedReader formServer = new BufferedReader(new InputStreamReader(socket.getInputStream())) ;
+            mess = formServer.readLine(); ;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     // Method riêng
     public void Send_Login_Value(String username , String password ,Socket socket){
@@ -80,4 +94,9 @@ public class ClientCore {
             e.printStackTrace();
         }
     }
+
+
+
+
+    private String mess ;
 }

@@ -50,7 +50,7 @@ public class server {
             switch (readLine){
                 case Request.LOGIN -> {
                     System.out.println("Đăng nhập");
-                    ServerThread.Login(socket);
+                    ServerThread.DangNhap(socket);
                 }
                 case Request.SIGNUP -> {
                     System.out.println("Đăng ký");

@@ -105,9 +105,6 @@ public class User_loginController implements Initializable {
         pass.setVisible(false);
         open_eye.setVisible(false);
         User_text.textProperty().addListener((observable, oldValue, newValue) -> CheckFields());
-        //Thêm sự kiện cho User_text
-        //Observable -> đối tượng theo dõi  oldValue -> giá trị cũ  newValue -> giá trị mới
-        // Hàm được gọi CheckFields() sẽ hoạt động khi User_text có dữ liệu mới
         pass.textProperty().addListener((observable, oldValue, newValue) -> CheckFields());
         pass_hide.textProperty().addListener((observable, oldValue, newValue) -> CheckFields());
         //Dữ liệu sẽ
@@ -135,11 +132,10 @@ public class User_loginController implements Initializable {
         }
     }
     private void sendData() {
-        String username = User_text.getText().trim() ;
-        String password = pass.getText().trim() ;
+        String username = User_text.getText();
+        String password = pass.getText();
         //Xóa đi khoảng trắng nếu người dùng khi dùng ngôn ngữ ko phải là tiếng anh
         String request = "<Login>";
-
         new ClientCore(username,password,request) ;
 
     }
