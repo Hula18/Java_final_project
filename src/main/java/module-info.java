@@ -11,4 +11,8 @@ module org.example.java_final_project {
     opens org.example.java_final_project.Client.Controller to javafx.fxml;
     exports org.example.java_final_project.Server.Controller;
     opens org.example.java_final_project.Server.Controller to javafx.fxml;
+    exports org.example.java_final_project.Client.Controller.Login_And_SignUp;
+    opens org.example.java_final_project.Client.Controller.Login_And_SignUp to javafx.fxml;
+    exports org.example.java_final_project.Client.Controller.Bank;
+    opens org.example.java_final_project.Client.Controller.Bank to javafx.fxml;
 }

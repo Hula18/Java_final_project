@@ -1,4 +1,4 @@
-package org.example.java_final_project.Client.Controller;
+package org.example.java_final_project.Client.Controller.Login_And_SignUp;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -8,13 +8,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.example.java_final_project.Client.Controller.ClientCore;
 import org.example.java_final_project.Main;
+import org.example.java_final_project.Model.Request;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,7 +28,7 @@ public class User_loginController implements Initializable {
 
     /*Text Filed*/
     @FXML
-    private TextField User_text;
+    private TextField SDT_text;
     @FXML
     private TextField pass;
 
@@ -44,10 +47,10 @@ public class User_loginController implements Initializable {
     /*Other*/
     @FXML
     private PasswordField pass_hide;
+    @FXML
+    private Label information;
     private Stage prevStage ;
     private String password;
-    private ClientCore userDAO ;
-
     public void setPrevStage(Stage stage) { // Lấy dữ liệu từ stage cũ để chuyển stage mới
         this.prevStage = stage;
     }
@@ -83,61 +86,71 @@ public class User_loginController implements Initializable {
             }
         }, 1000);
     }
-    private void changeScene() {
-        try{
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("User-create-account.fxml"));
-
-            Parent root = fxmlLoader.load();
-
-            User_Sign_UpController signUpController = fxmlLoader.getController() ;
-            signUpController.setPreSignInStage(prevStage);
-
-            prevStage.getScene().setRoot(root);
-
-            System.out.println("Dieu huong toi dang ki ");
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         pass.setVisible(false);
         open_eye.setVisible(false);
-        User_text.textProperty().addListener((observable, oldValue, newValue) -> CheckFields());
-        pass.textProperty().addListener((observable, oldValue, newValue) -> CheckFields());
-        pass_hide.textProperty().addListener((observable, oldValue, newValue) -> CheckFields());
-        //Dữ liệu sẽ
-        signUpButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Runnable openSignUp = new Runnable() {
-                    @Override
-                    public void run() {
-                        changeScene();
-                    }
-                };
-                openSignUp.run();
-            };
+        SDT_text.textProperty().addListener((observable, oldValue, newValue) -> {
+            CheckFields();
+            information.setVisible(false);
         });
+        pass.textProperty().addListener((observable, oldValue, newValue) -> {
+            CheckFields();
+            information.setVisible(false);
+        });
+        pass_hide.textProperty().addListener((observable, oldValue, newValue) -> {
+            CheckFields();
+            information.setVisible(false);
+        });
+        //Dữ liệu sẽ
+        signUpButton.setOnAction(e -> changeScene());
         login_button.setOnAction(e -> sendData());
     }
 
+
+
     private void CheckFields(){
-        boolean isUsernameEmpty = User_text.getText().isEmpty() ;
+        boolean isUsernameEmpty = SDT_text.getText().isEmpty() ;
         boolean isPasswordEmpty = pass.isVisible() ? pass.getText().isEmpty() : pass_hide.getText().isEmpty() ;
-        login_button.setDisable(isPasswordEmpty||isUsernameEmpty);
         if(!isPasswordEmpty && !isUsernameEmpty){
             login_button.setDisable(false);
+        }else{
+            login_button.setDisable(true);
         }
     }
     private void sendData() {
-        String username = User_text.getText();
-        String password = pass.getText();
-        //Xóa đi khoảng trắng nếu người dùng khi dùng ngôn ngữ ko phải là tiếng anh
-        String request = "<Login>";
-        new ClientCore(username,password,request) ;
+                String SDT = SDT_text.getText();
+                String password = pass.getText();
+                String request = Request.LOGIN;
+        Runnable checkAccount = new Runnable() {
+            @Override
+            public void run() {
+                new ClientCore(SDT,password,request,information) ;
+            }
+        };
+        checkAccount.run();
+    }
+    private void changeScene() {
+       Runnable scene = new Runnable() {
+           @Override
+           public void run() {
+               try{
+                   FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("User-create-account.fxml"));
 
+                   Parent root = fxmlLoader.load();
+
+                   User_Sign_UpController signUpController = fxmlLoader.getController() ;
+                   signUpController.setPreSignInStage(prevStage);
+
+                   prevStage.getScene().setRoot(root);
+
+                   System.out.println("Dieu huong toi dang ki ");
+               }catch (Exception e){
+                   e.printStackTrace();
+               }
+           }
+       };
+       scene.run();
     }
 
 

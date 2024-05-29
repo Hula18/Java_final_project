@@ -1,19 +1,13 @@
-package org.example.java_final_project.Server.DAO;
+package org.example.java_final_project.Model.DAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConnectDB {
-    protected Statement statement ;
     public static Connection OpenConnection() {
         Connection connection = null ;
 
-        final String DATABASE_NAME = "jdbc:mysql://localhost:3306/dangnhap";
+        final String DATABASE_NAME = "jdbc:mysql://localhost:3306/cuoiki";
         final String USER = "root" ;
         final String password = "";
         try{
@@ -25,12 +19,14 @@ public class ConnectDB {
         return connection ;
     }
     public static void CloseConnection(Connection conn) {
-        try{
-            if(conn != null && !conn.isClosed()){
-                conn.close();
+            if(conn != null){
+                try{
+                   if(!conn.isClosed()) {
+                       conn.close();
+                   }
+                }catch (Exception e){
+                        e.printStackTrace();
+                }
             }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 }

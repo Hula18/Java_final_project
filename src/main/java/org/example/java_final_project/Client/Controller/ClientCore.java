@@ -1,51 +1,70 @@
 package org.example.java_final_project.Client.Controller;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import javafx.application.Platform;
+import javafx.scene.control.Label;
+import org.example.java_final_project.Model.Request;
+
+import java.io.*;
 import java.net.Socket;
 
 // Class này dùng để gửi đi dữ liệu tới server
 public class ClientCore {
-    public ClientCore(String username, String password, String request){
+    public ClientCore(String SDT, String password, String request, Label information){
         Socket socket = Client.getConnect() ;
-        System.out.println(username+" : "+password);
+        System.out.println(SDT+" : "+password);
         try {
-            Thread sendRequest = new Thread(() ->SendRequest(request,socket));
-            sendRequest.start();sendRequest.join();
-
-            Thread sendValue = new Thread(() -> Send_Login_Value(username,password,socket));
-            sendValue.start();sendValue.join();
-
-            Thread receiveInfor = new Thread(() -> GetInformation(socket));
-            receiveInfor.start();receiveInfor.join();
-
-            System.out.println(mess);
+            Runnable clientCore = new Runnable() {
+                @Override
+                public void run() {
+                    SendRequest(request,socket);
+                    Send_Login_Value(SDT,password,socket);
+                    int n = getSucess(socket) ;
+                   Platform.runLater(() ->{
+                       if ((n == 1)) {
+                           information.setText("");
+                       } else {
+                           information.setText("SDT hoặc mật khẩu không đúng vui lòng thử lại");
+                       }
+                       information.setVisible(true);
+                   });
+                }
+            };
+            clientCore.run();
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            Client.getClose(socket);
         }
-        Client.getClose(socket);
     }
-    public ClientCore(String username , String email , String password , String request) {
+   /*Dăng ký*/
+    public ClientCore(String Ho , String Ten ,String SDT , String gmail , String password , String request, Label check) {
         Socket socket = Client.getConnect() ;
-        System.out.println(username +" : "+email +" : "+password);
-        try{
-            Thread sendRequest = new Thread(() -> SendRequest(request,socket));
-            sendRequest.start();sendRequest.join();
-
-            Thread SendValue = new Thread(() -> Send_SignUp_Value(username,password,email,socket));
-            SendValue.start();SendValue.join();
-
-            Thread getInfor = new Thread(() -> GetInformation(socket));
-            getInfor.start();getInfor.join();
-        }catch (Exception e){
+        System.out.println(Ho + " : " + Ten + " : " + SDT + " : " + gmail + " : " + password);
+        try {
+            Runnable clientCore = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        SendRequest(request, socket);
+                        Send_SignUp_Value(Ho, Ten, SDT, gmail, password, socket);
+                        String response = getServerResponse(socket);
+                        handleSignUpResponse(response,check);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        Client.getClose(socket);
+                    }
+                }
+            };
+            new Thread(clientCore).start();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        Client.getClose(socket);
     }
 
-    // Method chung
+
+
+
     public void SendRequest(String request,Socket socket) {
         try {
             BufferedWriter toServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -55,48 +74,63 @@ public class ClientCore {
             e.printStackTrace();
         }
     }  /*Gửi yêu cầu tới server*/
-    public void GetInformation(Socket socket){
-        try{
-            BufferedReader formServer = new BufferedReader(new InputStreamReader(socket.getInputStream())) ;
-            mess = formServer.readLine(); ;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    // Method riêng
-    public void Send_Login_Value(String username , String password ,Socket socket){
+    public void Send_Login_Value(String SDT , String password ,Socket socket){
         try{
             BufferedWriter toServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())) ;
             BufferedReader fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream())) ;
             String access = fromServer.readLine() ;
             if(access.equals("<Oke>")) {
-                toServer.write(username+"\n");
+                toServer.write(SDT+"\n");
                 toServer.write(password+"\n");
-                toServer.flush();
             }
+            toServer.flush();
         }catch (Exception e){
             e.printStackTrace();
         }
     }
-    public void Send_SignUp_Value(String username , String password , String email , Socket socket){
+    public void Send_SignUp_Value(String Ho , String Ten ,String SDT , String gmail , String password , Socket socket){
         try{
             BufferedWriter toServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())) ;
             BufferedReader fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream())) ;
             String access = fromServer.readLine() ;
             if(access.equals("<Oke>")){
-                toServer.write(username+"\n");
+                toServer.write(Ho+"\n");
+                toServer.write(Ten+"\n");
+                toServer.write(SDT+"\n");
+                toServer.write(gmail+"\n");
                 toServer.write(password+"\n");
-                toServer.write(email+"\n");
-                toServer.flush();
             }
+            toServer.flush();
         }catch (Exception e){
             e.printStackTrace();
         }
     }
+    public int getSucess(Socket socket){
+        try{
+            BufferedReader fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream())) ;
+            String access = fromServer.readLine() ;
+            System.out.println(access);
+            if(access.equals(Request.LoginSuccess)){
+                return 1 ;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0 ;
+    }
+    private String getServerResponse(Socket socket) throws IOException {
+        BufferedReader fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        return fromServer.readLine();
+    }
 
-
-
-
-    private String mess ;
+    private void handleSignUpResponse(String response, Label check) {
+        Platform.runLater(() -> {
+            if (response.equals(Request.ExistNumberPhone)) {
+                check.setVisible(true);
+                check.setText("Số điện thoại đã tồn tại !");
+            }else{
+                check.setVisible(false);
+            }
+        });
+    }
 }

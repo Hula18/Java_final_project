@@ -1,5 +1,6 @@
 package org.example.java_final_project.Server.Controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,19 +12,14 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class serverController implements Initializable {
-
+public class ServerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Start_server_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if (port_server.getText().isEmpty()) {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Hệ thống");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Bạn chưa nhập PORT\nVui lòng nhập đầy đủ!");
-                    alert.showAndWait();
+                    showAlert(Alert.AlertType.ERROR, "Hệ thống", null, "Bạn chưa nhập PORT\nVui lòng nhập đầy đủ!");
                 } else {
                     try {
                         port = port_server.getText() ;
@@ -33,21 +29,13 @@ public class serverController implements Initializable {
                                 status_OFF.setVisible(false);
                                 Start_server_button.setDisable(true);
                                 End_server_button.setDisable(false);
-                                serverCore = new server(Integer.parseInt(port));
+                                serverCore = new server(Integer.parseInt(port),ServerController.this);
                                 updateMessage("START SERVER ON PORT :"+port);
                             }else{
-                                alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                alert.setTitle("Lỗi");
-                                alert.setHeaderText(null);
-                                alert.setContentText("Port không được quá 65.535!\nVui lòng thử lại");
-                                alert.showAndWait();
+                                showAlert(Alert.AlertType.CONFIRMATION, "Lỗi", null, "Port không được quá 65.535!\nVui lòng thử lại");
                             }
                         }else{
-                            alert = new Alert(Alert.AlertType.WARNING);
-                            alert.setTitle("Thông báo");
-                            alert.setHeaderText(null);
-                            alert.setContentText("Port vui lòng là số!");
-                            alert.showAndWait() ;
+                            showAlert(Alert.AlertType.WARNING, "Thông báo", null, "Port vui lòng là số!");
                         }
                     } catch (Exception e) {
                         updateMessage("START ERROR");
@@ -56,6 +44,7 @@ public class serverController implements Initializable {
                 }
             }
         });
+
         End_server_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -77,116 +66,22 @@ public class serverController implements Initializable {
     }
 
 
+    @FXML private Button End_server_button;
+    @FXML private Button InforButton;
+    @FXML private TextArea Message;
+    @FXML private Label Number_Of_User;
+    @FXML private Button Start_server_button;
+    @FXML private TextField port_server;
+    @FXML private Label status_OFF;
+    @FXML private Label status_Running;
+    @FXML private Button userButton;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @FXML
-    private Button End_server_button;
-
-    @FXML
-    private Button InforButton;
-
-    @FXML
-    private TextArea Message;
-
-    @FXML
-    private Label Number_Of_User;
-
-    @FXML
-    private Button Start_server_button;
-
-    @FXML
-    private TextField port_server;
-
-    @FXML
-    private Label status_OFF;
-
-    @FXML
-    private Label status_Running;
-
-    @FXML
-    private Button userButton;
-    private Alert alert ;
     private static server serverCore ;
     private String port ;
 
 
     public void updateMessage(String msg) {
-        Message.appendText(msg+"\n");
+        Platform.runLater(() -> Message.appendText(msg + "\n"));
     }
     public boolean isNumber(String n) {
         String regex = "^\\d{3,5}$"; /* một chuỗi có phải là số nguyên dương
@@ -200,5 +95,12 @@ public class serverController implements Initializable {
 
         // Kiểm tra chuỗi có khớp với biểu thức chính quy
         return matcher.matches() ;
+    }
+    private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

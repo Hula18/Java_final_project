@@ -1,6 +1,7 @@
 package org.example.java_final_project.Server.Controller;
 
-import org.example.java_final_project.Server.Model.Request;
+import org.example.java_final_project.Server.Controller.ServerController;
+import org.example.java_final_project.Model.Request;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -8,10 +9,13 @@ import java.net.Socket;
 
 public class server {
     private ServerSocket serverSocket ;
+    private ServerController serverController ;
     public boolean isStop = false;
-    public server(int port)  {
+    private ServerThread serverThread ;
+    public server(int port , ServerController serverController)  {
         try {
             this.serverSocket = new ServerSocket(port);
+            this.serverController = serverController ;
             System.out.println("Server open port: "+port);
             isStop = false;
             (new WaitForConnect()).start();
@@ -19,6 +23,7 @@ public class server {
             e.printStackTrace();
         }
     }
+
     public class WaitForConnect extends Thread {
         @Override
         public void run() {
@@ -43,18 +48,19 @@ public class server {
         isStop = true ;
         serverSocket.close();
     }
-    public static void Read_Request_Of_Client(Socket socket) {
+    public void Read_Request_Of_Client(Socket socket) {
         try{
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String readLine = bufferedReader.readLine();
+            ServerThread serverThread = new ServerThread(serverController, socket);
             switch (readLine){
                 case Request.LOGIN -> {
                     System.out.println("Đăng nhập");
-                    ServerThread.DangNhap(socket);
+                    serverThread.DangNhap();
                 }
                 case Request.SIGNUP -> {
                     System.out.println("Đăng ký");
-                    ServerThread.DangKy(socket);
+                    serverThread.DangKy();
                     /*Chưa hoàn thành*/
                 }
             }

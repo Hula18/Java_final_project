@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.java_final_project.Client.Controller.User_loginController;
+import org.example.java_final_project.Client.Controller.Login_And_SignUp.User_loginController;
 
 import java.io.IOException;
 
@@ -27,4 +27,3 @@ public class Main extends Application {
         launch();
     }
 }
-
