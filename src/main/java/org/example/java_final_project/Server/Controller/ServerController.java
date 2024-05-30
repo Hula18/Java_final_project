@@ -31,6 +31,7 @@ public class ServerController implements Initializable {
                                 End_server_button.setDisable(false);
                                 serverCore = new server(Integer.parseInt(port),ServerController.this);
                                 updateMessage("START SERVER ON PORT :"+port);
+                                port_server.setDisable(true);
                             }else{
                                 showAlert(Alert.AlertType.CONFIRMATION, "Lỗi", null, "Port không được quá 65.535!\nVui lòng thử lại");
                             }
@@ -56,6 +57,7 @@ public class ServerController implements Initializable {
                         status_OFF.setVisible(true);
                         Start_server_button.setDisable(false);
                         End_server_button.setDisable(true);
+                        port_server.setDisable(false);
                     }catch (Exception e){
                         e.printStackTrace();
                     }

@@ -1,5 +1,6 @@
 package org.example.java_final_project.Server.Controller;
 
+import javafx.stage.Stage;
 import org.example.java_final_project.Server.Controller.ServerController;
 import org.example.java_final_project.Model.Request;
 
@@ -8,18 +9,18 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class server {
-    private ServerSocket serverSocket ;
-    private ServerController serverController ;
+    private ServerSocket serverSocket;
+    private ServerController serverController;
     public boolean isStop = false;
-    private ServerThread serverThread ;
-    public server(int port , ServerController serverController)  {
+
+    public server(int port, ServerController serverController) {
         try {
             this.serverSocket = new ServerSocket(port);
-            this.serverController = serverController ;
-            System.out.println("Server open port: "+port);
+            this.serverController = serverController;
+            System.out.println("Server open port: " + port);
             isStop = false;
             (new WaitForConnect()).start();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -1,6 +1,12 @@
 package org.example.java_final_project.Server.Controller;
 
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.example.java_final_project.Client.Controller.Login_And_SignUp.User_loginController;
+import org.example.java_final_project.Main;
 import org.example.java_final_project.Model.Request;
 import org.example.java_final_project.Model.User;
 
@@ -13,11 +19,11 @@ import java.util.Random;
 
 public class ServerThread{
     private ServerController controller;
-    private Socket socket ;
+    private Socket socket;
 
-    public ServerThread(ServerController controller,Socket socket) {
+    public ServerThread(ServerController controller, Socket socket) {
         this.controller = controller;
-        this.socket = socket ;
+        this.socket = socket;
     }
     // Method
     public void DangNhap(){
@@ -42,7 +48,6 @@ public class ServerThread{
                                     toClient.write(Request.LoginSuccess + "\n");
                                     UserDAO.updateToOnline(user1.getID());
                                     controller.updateMessage("[" +user1.getID()+"]"+user1.getTen() +" : đang online");
-
                                     UserDAO.updateToOffline(user1.getID());
                                     controller.updateMessage("[" +user1.getID()+"]"+user1.getTen() +" : đang offline");
                                 }

@@ -30,6 +30,8 @@
 
 .signUp{
     -fx-text-fill:#fff;
+    -fx-background-color: transparent;
+
 }
 .signUp:hover{
      -fx-underline: true;

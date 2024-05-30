@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.java_final_project.Client.Controller.Bank.ScreenController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="521.0" prefWidth="309.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.java_final_project.Client.Controller.Bank.ScreenController">
+   <children>
+      <AnchorPane layoutX="95.0" layoutY="97.0" prefHeight="521.0" prefWidth="309.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane layoutY="480.0" prefHeight="43.0" prefWidth="318.0" style="-fx-background-color: black;" visible="false" />
+            <ImageView fitHeight="204.0" fitWidth="318.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../Picture/screen.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="137.0" layoutY="182.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="46.0" style="-fx-background-radius: 100%;" />
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>

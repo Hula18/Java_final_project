@@ -1,10 +1,12 @@
 
 .button {
     -fx-text-fill : #fff;
+    -fx-background-color:transparent;
 }
 .Button:hover{
     -fx-underline: true;
     -fx-text-fill: #00f6ff;
+    -fx-background-color:transparent;
 }
 .Pass {
     -fx-background-radius:18px ;

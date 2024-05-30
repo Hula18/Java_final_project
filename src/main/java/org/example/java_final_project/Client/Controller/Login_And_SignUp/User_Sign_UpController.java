@@ -233,4 +233,11 @@ public class User_Sign_UpController implements Initializable {
             e.printStackTrace();
         }
     }
+    private void OpenNewScene(){
+        try{
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

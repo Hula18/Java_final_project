@@ -10,7 +10,7 @@ import java.net.Socket;
 // Class này dùng để gửi đi dữ liệu tới server
 public class ClientCore {
     public ClientCore(String SDT, String password, String request, Label information){
-        Socket socket = Client.getConnect() ;
+        this.socket = Client.getConnect() ;
         System.out.println(SDT+" : "+password);
         try {
             Runnable clientCore = new Runnable() {
@@ -18,15 +18,15 @@ public class ClientCore {
                 public void run() {
                     SendRequest(request,socket);
                     Send_Login_Value(SDT,password,socket);
-                    int n = getSucess(socket) ;
-                   Platform.runLater(() ->{
-                       if ((n == 1)) {
-                           information.setText("");
-                       } else {
-                           information.setText("SDT hoặc mật khẩu không đúng vui lòng thử lại");
-                       }
-                       information.setVisible(true);
-                   });
+                    loginResult = getSucess(socket) ;
+                    Platform.runLater(() -> {
+                        if (loginResult == 1) {
+                            information.setText("");
+                        } else {
+                            information.setText("SDT hoặc mật khẩu không đúng vui lòng thử lại");
+                        }
+                        information.setVisible(true);
+                    });
                 }
             };
             clientCore.run();
@@ -38,7 +38,7 @@ public class ClientCore {
     }
    /*Dăng ký*/
     public ClientCore(String Ho , String Ten ,String SDT , String gmail , String password , String request, Label check) {
-        Socket socket = Client.getConnect() ;
+        this.socket = Client.getConnect() ;
         System.out.println(Ho + " : " + Ten + " : " + SDT + " : " + gmail + " : " + password);
         try {
             Runnable clientCore = new Runnable() {
@@ -48,6 +48,7 @@ public class ClientCore {
                         SendRequest(request, socket);
                         Send_SignUp_Value(Ho, Ten, SDT, gmail, password, socket);
                         String response = getServerResponse(socket);
+                        System.out.println(response);
                         handleSignUpResponse(response,check);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -61,10 +62,6 @@ public class ClientCore {
             e.printStackTrace();
         }
     }
-
-
-
-
     public void SendRequest(String request,Socket socket) {
         try {
             BufferedWriter toServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -132,5 +129,19 @@ public class ClientCore {
                 check.setVisible(false);
             }
         });
+    }
+    private Socket socket ;
+    private int loginResult ;
+    public int getLoginResult() {
+        return loginResult;
+    }
+    public void setLoginResult(int loginResult) {
+        this.loginResult = loginResult;
+    }
+    public Socket getSocket() {
+        return socket;
+    }
+    public void setSocket(Socket socket) {
+        this.socket = socket;
     }
 }

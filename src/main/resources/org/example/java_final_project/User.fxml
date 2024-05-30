@@ -53,7 +53,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <Button layoutX="211.0" layoutY="290.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="113.0" style="-fx-background-color: transparent;" styleClass="Button" stylesheets="@../../../Css/SignIn.css" text="Forget password?" textFill="#eeeeee">
+            <Button layoutX="211.0" layoutY="290.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="113.0" styleClass="Button" stylesheets="@../../../Css/SignIn.css" text="Forget password?" textFill="#eeeeee">
                <font>
                   <Font name="Comic Sans MS" size="11.0" />
                </font>
@@ -90,12 +90,12 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Label layoutX="79.0" layoutY="385.0" text="Don't have an account ?" textFill="#eeeeee">
+            <Label layoutX="79.0" layoutY="385.0" style="-fx-background-color: transparent;" text="Don't have an account ?" textFill="#eeeeee">
                <font>
                   <Font name="Comic Sans MS" size="11.0" />
                </font>
             </Label>
-            <Button fx:id="signUpButton" layoutX="201.0" layoutY="380.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="60.0" style="-fx-background-color: transparent;" styleClass="signUp" stylesheets="@../../../Css/server.css" text="Sign up" textFill="WHITE">
+            <Button fx:id="signUpButton" layoutX="201.0" layoutY="380.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="60.0" styleClass="signUp" stylesheets="@../../../Css/server.css" text="Sign up" textFill="WHITE">
                <font>
                   <Font name="Comic Sans MS Bold" size="11.0" />
                </font>
@@ -103,7 +103,7 @@
                   <Insets right="11.0" />
                </padding>
             </Button>
-            <Label fx:id="information" layoutX="41.0" layoutY="324.0" prefHeight="13.0" prefWidth="266.0" textFill="#00ffe1">
+            <Label fx:id="information" layoutX="41.0" layoutY="324.0" prefHeight="13.0" prefWidth="266.0" style="-fx-background-color: transparent;" textFill="#00ffe1">
                <font>
                   <Font name="Consolas Bold" size="10.0" />
                </font>

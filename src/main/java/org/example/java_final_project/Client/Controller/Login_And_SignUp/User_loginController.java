@@ -7,10 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -102,7 +99,6 @@ public class User_loginController implements Initializable {
             CheckFields();
             information.setVisible(false);
         });
-        //Dữ liệu sẽ
         signUpButton.setOnAction(e -> changeScene());
         login_button.setOnAction(e -> sendData());
     }
@@ -122,13 +118,19 @@ public class User_loginController implements Initializable {
                 String SDT = SDT_text.getText();
                 String password = pass.getText();
                 String request = Request.LOGIN;
-        Runnable checkAccount = new Runnable() {
-            @Override
-            public void run() {
-                new ClientCore(SDT,password,request,information) ;
-            }
-        };
-        checkAccount.run();
+            Runnable checkAccount = new Runnable() {
+                @Override
+                public void run() {
+                    ClientCore clientCore = new ClientCore(SDT,password,request,information) ;
+                    int result = clientCore.getLoginResult();
+                    Platform.runLater(() -> {
+                        if (result == 1) {
+                            changeToMainScene();
+                        }
+                    });
+                }
+            };
+        new Thread(checkAccount).start();
     }
     private void changeScene() {
        Runnable scene = new Runnable() {
@@ -150,8 +152,16 @@ public class User_loginController implements Initializable {
                }
            }
        };
-       scene.run();
+       new Thread(scene).start();
     }
-
-
+    private void changeToMainScene() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("MainScreen.fxml"));
+            Parent root = fxmlLoader.load();
+            prevStage.getScene().setRoot(root);
+            System.out.println("Dang nhap thanh cong");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
