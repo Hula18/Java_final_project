@@ -87,4 +87,21 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
+    public static String ChangeName(String SDT) {
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT `Ho` , `Ten` FROM `bank` WHERE `SDT` =  ?");
+            preparedStatement.setString(1,SDT);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if(rs.next()){
+                String firstName = rs.getString("Ho") ;
+                String lastName = rs.getString("Ten") ;
+                return firstName + lastName ;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "Unknown User" ;
+    }
+
 }
