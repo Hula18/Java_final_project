@@ -1,20 +1,13 @@
 package org.example.java_final_project.Server.Controller;
 
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import org.example.java_final_project.Client.Controller.Login_And_SignUp.User_loginController;
-import org.example.java_final_project.Main;
+import org.example.java_final_project.Client.Controller.Handle.Client;
+import org.example.java_final_project.Model.DAO.UserDAO;
 import org.example.java_final_project.Model.Request;
 import org.example.java_final_project.Model.User;
 
 import java.io.*;
-import java.math.BigInteger;
 import java.net.Socket;
-import java.util.Random;
-
 
 
 public class ServerThread{
@@ -44,22 +37,17 @@ public class ServerThread{
                                 User user1 = UserDAO.verifyUser(new User(SDT, Password));
                                 if (user1 == null) {
                                     toClient.write(Request.WrongUser + "\n");
-                                } else if (!user1.isOnline()) {
+                                } else if(!user1.isOnline()) {
                                     toClient.write(Request.LoginSuccess + "\n");
                                     UserDAO.updateToOnline(user1.getID());
                                     controller.updateMessage("[" +user1.getID()+"]"+user1.getTen() +" : đang online");
+                                }else{
                                     UserDAO.updateToOffline(user1.getID());
                                     controller.updateMessage("[" +user1.getID()+"]"+user1.getTen() +" : đang offline");
                                 }
                                 toClient.flush();
                             } catch (Exception e) {
                                 e.printStackTrace();
-                            } finally {
-                                try {
-                                    socket.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
                             }
                     }).start();
                 }
@@ -95,27 +83,44 @@ public class ServerThread{
 
                         UserDAO.updateToOnline(user.getID());
                         controller.updateMessage("[" +user.getID()+"]"+user.getTen() +" : đang online");
-                        UserDAO.updateToOffline(user.getID());
-                        controller.updateMessage("[" +user.getID()+"]"+user.getTen() +" : đang offline");
                     }
                     toClient.flush();
                 } catch (Exception e) {
                     e.printStackTrace();
-                } finally {
-                    try {
-                        socket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         };
         new Thread(dangky).start();
     }
+
+    public void DangXuat() {
+        checkStatus();
+        Runnable DangXuat = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    BufferedReader fromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    BufferedWriter toClient = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                    String request = fromClient.readLine();
+                    User user = UserDAO.verifyUserBy_SDT(new User(request));
+                    if(user != null){
+                        toClient.write(Request.SignOffSuccess+"\n");
+                        toClient.flush();
+                        UserDAO.updateToOffline(user.getID());
+                        controller.updateMessage("[" +user.getID()+"]"+user.getTen() +" : đã offline");
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        new Thread(DangXuat).start();
+    }
+
     public void checkStatus(){
         try{
             BufferedWriter toServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())) ;
-            toServer.write("<Oke>\n");
+            toServer.write(Request.OKE+"\n");
             toServer.flush();
         }catch (Exception e){
             e.printStackTrace();

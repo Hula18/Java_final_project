@@ -12,4 +12,9 @@ public class Request {
     public static final String SignUpSuccess = "<SignUp-Success>" ;
     public static final String ExistNumberPhone = "<Exist-Username>" ;
 
+    /**/
+    public static final String OKE = "<Oke>" ;
+    public static final String SignOff = "<Sign-Off>";
+    public static final String SignOffSuccess = "<Off-Success>";
+
 }

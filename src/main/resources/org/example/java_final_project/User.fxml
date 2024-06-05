@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="487.0" prefWidth="338.0" style="-fx-background-color: #222831;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.java_final_project.Client.Controller.Login_And_SignUp.User_loginController">
+<AnchorPane maxHeight="487.0" maxWidth="338.0" minHeight="487.0" minWidth="338.0" prefHeight="487.0" prefWidth="338.0" style="-fx-background-color: #222831;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.java_final_project.Client.Controller.Login_And_SignUp.User_loginController">
    <children>
-      <AnchorPane prefHeight="487.0" prefWidth="452.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane maxHeight="487.0" maxWidth="338.0" minHeight="487.0" minWidth="338.0" prefHeight="487.0" prefWidth="338.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label alignment="TOP_LEFT" graphicTextGap="7.0" layoutX="17.0" layoutY="26.0" prefHeight="139.0" prefWidth="187.0" text="Hey,   Welcome  back" textFill="WHITE" wrapText="true">
                <font>
@@ -103,7 +103,7 @@
                   <Insets right="11.0" />
                </padding>
             </Button>
-            <Label fx:id="information" layoutX="41.0" layoutY="324.0" prefHeight="13.0" prefWidth="266.0" style="-fx-background-color: transparent;" textFill="#00ffe1">
+            <Label fx:id="information" layoutX="41.0" layoutY="324.0" prefHeight="13.0" prefWidth="266.0" style="-fx-background-color: transparent;" textFill="#00ffe1" visible="false">
                <font>
                   <Font name="Consolas Bold" size="10.0" />
                </font>

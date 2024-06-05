@@ -1,14 +1,15 @@
-package org.example.java_final_project.Server.Controller;
+package org.example.java_final_project.Model.DAO;
 
 import org.example.java_final_project.Model.DAO.ConnectDB;
 import org.example.java_final_project.Model.User;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class UserDAO {
-    private static Connection conn = ConnectDB.OpenConnection() ;
+    private static Connection conn = ConnectDB.OpenConnection();
     public static User verifyUser(User user){
         try{
             conn = ConnectDB.OpenConnection() ;
@@ -31,6 +32,27 @@ public class UserDAO {
         }
         return null ;
     }
+    public static User verifyUserBy_SDT(User user){
+        try{
+            conn = ConnectDB.OpenConnection() ;
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM `bank` WHERE `SDT` = ?");
+            preparedStatement.setString(1, user.getSDT());
+
+            ResultSet rs = preparedStatement.executeQuery() ;
+            while(rs.next()){
+                return new User(rs.getInt("Id"),
+                        rs.getString("Ho"),
+                        rs.getString("Ten"),
+                        rs.getString("SDT"),
+                        rs.getString("Gmail"),
+                        rs.getString("Password"),
+                        rs.getInt("IsOnline") != 0);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
     public static void AddUser(User user){
         try{
             conn = ConnectDB.OpenConnection() ;
@@ -43,7 +65,20 @@ public class UserDAO {
             preparedStatement.setString(4,user.getGmail());
             preparedStatement.setString(5,user.getPassword());
 
-            preparedStatement.executeUpdate();
+            int rs =  preparedStatement.executeUpdate();
+            if(rs>0){
+                PreparedStatement insertInformation = conn.prepareStatement("INSERT INTO `user` (`SDT`)"
+                        + "VALUES (?);");
+                insertInformation.setString(1, user.getSDT());
+                int infoRs = insertInformation.executeUpdate();
+                if (infoRs > 0) {
+                    System.out.println("User information inserted successfully into 'information'.");
+                } else {
+                    System.out.println("User information insertion failed in 'information'.");
+                }
+            }else{
+                System.out.println("User information insertion failed.");
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -96,12 +131,42 @@ public class UserDAO {
             if(rs.next()){
                 String firstName = rs.getString("Ho") ;
                 String lastName = rs.getString("Ten") ;
-                return firstName + lastName ;
+                return firstName +" "+lastName ;
             }
         }catch (Exception e){
             e.printStackTrace();
         }
         return "Unknown User" ;
     }
+    public static BigDecimal UpdateBalance (String SDT){
+        try{
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT `Balance` FROM `user` WHERE `SDT` = ?") ;
+            preparedStatement.setString(1,SDT);
 
+            ResultSet rs = preparedStatement.executeQuery() ;
+            if(rs.next()){
+                return rs.getBigDecimal("Balance");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null ;
+    }
+
+    public boolean checkIsBanned(User user){
+        try{
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM banned_user WHERE `SDT_User` =?");
+            preparedStatement.setString(1,user.getSDT());
+
+            System.out.println(preparedStatement);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next()){
+                return true ;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false ;
+    }
 }

@@ -1,18 +1,19 @@
 package org.example.java_final_project.Client.Controller.Login_And_SignUp;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import org.example.java_final_project.Client.Controller.ClientCore;
+import org.example.java_final_project.Client.Controller.Bank.ScreenController;
+import org.example.java_final_project.Client.Controller.Handle.ClientCore;
+import org.example.java_final_project.Client.Controller.Interface.LoginCallBack;
 import org.example.java_final_project.Main;
 import org.example.java_final_project.Model.Request;
 
@@ -21,7 +22,7 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class User_loginController implements Initializable {
+public class User_loginController implements Initializable,LoginCallBack {
 
     /*Text Filed*/
     @FXML
@@ -48,8 +49,18 @@ public class User_loginController implements Initializable {
     private Label information;
     private Stage prevStage ;
     private String password;
+    private String User_ID ;
+
+
+
     public void setPrevStage(Stage stage) { // Lấy dữ liệu từ stage cũ để chuyển stage mới
         this.prevStage = stage;
+    }
+    public String getUser_ID() {
+        return User_ID;
+    }
+    public void setUser_ID(String user_ID) {
+        User_ID = user_ID;
     }
 
     public void ShowPasswordOnAction(KeyEvent keyEvent) {
@@ -62,7 +73,7 @@ public class User_loginController implements Initializable {
         password = pass_hide.getText();
         pass.setText(password);
     }
-    public void open_eye_OnAction(MouseEvent mouseEvent) { // Đóng mắt
+    public void open_eye_OnAction(MouseEvent mouseEvent) { // khi vào vái mở mắt -> đóng mắt
         pass_hide.setVisible(true);
         close_eye.setVisible(true);
         pass.setVisible(false);
@@ -85,6 +96,7 @@ public class User_loginController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        information.setVisible(false);
         pass.setVisible(false);
         open_eye.setVisible(false);
         SDT_text.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -115,22 +127,11 @@ public class User_loginController implements Initializable {
         }
     }
     private void sendData() {
-                String SDT = SDT_text.getText();
-                String password = pass.getText();
-                String request = Request.LOGIN;
-            Runnable checkAccount = new Runnable() {
-                @Override
-                public void run() {
-                    ClientCore clientCore = new ClientCore(SDT,password,request,information) ;
-                    int result = clientCore.getLoginResult();
-                    Platform.runLater(() -> {
-                        if (result == 1) {
-                            changeToMainScene();
-                        }
-                    });
-                }
-            };
-        new Thread(checkAccount).start();
+        String SDT = SDT_text.getText();
+        String password = pass.getText();
+        String request = Request.LOGIN;
+
+        new ClientCore(SDT, password, request, this);
     }
     private void changeScene() {
        Runnable scene = new Runnable() {
@@ -145,7 +146,6 @@ public class User_loginController implements Initializable {
                    signUpController.setPreSignInStage(prevStage);
 
                    prevStage.getScene().setRoot(root);
-
                    System.out.println("Dieu huong toi dang ki ");
                }catch (Exception e){
                    e.printStackTrace();
@@ -155,13 +155,48 @@ public class User_loginController implements Initializable {
        new Thread(scene).start();
     }
     private void changeToMainScene() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("MainScreen.fxml"));
-            Parent root = fxmlLoader.load();
-            prevStage.getScene().setRoot(root);
-            System.out.println("Dang nhap thanh cong");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Platform.runLater(() -> {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("MainScreen.fxml"));
+                Parent root = fxmlLoader.load();
+                ScreenController screenController = fxmlLoader.getController();
+                screenController.setPrevStage(prevStage);
+                screenController.setUserID(getUser_ID());
+
+                Scene scene2 = new Scene(root, 338, 564);
+                prevStage.setScene(scene2);
+                prevStage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("");
+            }
+        });
+    }
+// --------------------Interface ------------------------
+    @Override
+    public void onLoginSuccess() {
+        information.setText("");
+        setUser_ID(SDT_text.getText());
+        changeToMainScene();
+    }
+    @Override
+    public void onLoginFailure(String message) {
+        information.setVisible(true);
+        information.setText(message);
+    }
+
+    @Override
+    public void OnSignUpSuccess() {
+
+    }
+
+    @Override
+    public void OnSignUpFailure(String message) {
+
+    }
+
+    @Override
+    public void logOutSuccess() {
+
     }
 }

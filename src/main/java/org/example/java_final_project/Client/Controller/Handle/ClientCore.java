@@ -1,7 +1,8 @@
-package org.example.java_final_project.Client.Controller;
+package org.example.java_final_project.Client.Controller.Handle;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import org.example.java_final_project.Client.Controller.Interface.LoginCallBack;
 import org.example.java_final_project.Model.Request;
 
 import java.io.*;
@@ -11,24 +12,22 @@ import java.net.Socket;
 
 // Class này dùng để gửi đi dữ liệu tới server
 public class ClientCore {
-    public ClientCore(String SDT, String password, String request, Label information){
+    public ClientCore(String SDT, String password, String request, LoginCallBack loginCallback) {
         this.socket = Client.getConnect();
-        System.out.println(SDT + " : " + password);
-        try {
+        this.loginCallBack = loginCallback;
+        System.out.println(SDT + " : " +password);
             Runnable clientCore = new Runnable() {
                 @Override
                 public void run() {
                     try {
                         SendRequest(request, socket);
                         Send_Login_Value(SDT, password, socket);
-                        loginResult = getSuccess(socket);
+                        int loginResult = getSuccess(socket);
                         Platform.runLater(() -> {
                             if (loginResult == 1) {
-                                information.setVisible(false);
-                                information.setText("");
+                                loginCallback.onLoginSuccess();
                             } else {
-                                information.setVisible(true);
-                                information.setText("SDT hoặc mật khẩu không đúng vui lòng thử lại");
+                                loginCallback.onLoginFailure("SDT hoặc mật khẩu không đúng vui lòng thử lại");
                             }
                         });
                     } catch (Exception e) {
@@ -39,32 +38,23 @@ public class ClientCore {
                 }
             };
             new Thread(clientCore).start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
-
-    /*Dăng ký*/
-    public ClientCore(String Ho, String Ten, String SDT, String gmail, String password, String request, Label check) {
+    /*Dăng ký*/ public ClientCore(String Ho, String Ten, String SDT, String gmail, String password, String request, LoginCallBack loginCallBack) {
         this.socket = Client.getConnect();
+        this.loginCallBack = loginCallBack;
         System.out.println(Ho + " : " + Ten + " : " + SDT + " : " + gmail + " : " + password);
-        try {
             Runnable clientCore = new Runnable() {
                 @Override
                 public void run() {
                     try {
                         SendRequest(request, socket);
                         Send_SignUp_Value(Ho, Ten, SDT, gmail, password, socket);
-                        signUpResult = getServerResponse(socket);
-                        setSignUpResult(signUpResult);
+                        int SignUpCheck = getSuccess(socket);
+                        System.out.println(SignUpCheck);
                         Platform.runLater(() -> {
-                            if (signUpResult == 1) {
-                                check.setVisible(false);
-                                check.setText("");
-                            } else {
-                                check.setVisible(true);
-                                check.setText("SDT đã đăng ký vui lòng thử lại");
-                            }
+                            if(SignUpCheck == 1) loginCallBack.OnSignUpSuccess();
+                            else if(SignUpCheck == 2) loginCallBack.OnSignUpFailure("SDT đã có tài khoản!");
+                            else loginCallBack.OnSignUpFailure("không thể đăng ký");
                         });
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -74,9 +64,29 @@ public class ClientCore {
                 }
             };
             new Thread(clientCore).start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    }
+    /*Đăng xuất*/ public ClientCore(String SDT, String request,LoginCallBack loginCallBack){
+        this.socket = Client.getConnect() ;
+        this.loginCallBack = loginCallBack ;
+        Runnable signOff = new Runnable() {
+            @Override
+            public void run() {
+               try{
+                   SendRequest(request,socket);
+                   System.out.println(request);
+                   Send_SDT_ToSign_Off(SDT,socket);
+                   int signOffSuccess = getSuccess(socket);
+                   if(signOffSuccess == 3){
+                       loginCallBack.logOutSuccess();
+                   }
+               }catch (Exception e){
+                   e.printStackTrace();
+               }finally {
+                   Client.getClose(socket);
+               }
+            }
+        };
+        new Thread(signOff).start();
     }
     public void SendRequest(String request, Socket socket) {
         try {
@@ -94,6 +104,7 @@ public class ClientCore {
             BufferedWriter toServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             BufferedReader fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String access = fromServer.readLine();
+            System.out.println(access);
             if (access.equals("<Oke>")) {
                 toServer.write(SDT + "\n");
                 toServer.write(password + "\n");
@@ -103,12 +114,12 @@ public class ClientCore {
             e.printStackTrace();
         }
     }
-
     public void Send_SignUp_Value(String Ho, String Ten, String SDT, String gmail, String password, Socket socket) {
         try {
             BufferedWriter toServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             BufferedReader fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String access = fromServer.readLine();
+            System.out.println(access);
             if (access.equals("<Oke>")) {
                 toServer.write(Ho + "\n");
                 toServer.write(Ten + "\n");
@@ -121,53 +132,36 @@ public class ClientCore {
             e.printStackTrace();
         }
     }
+    public void Send_SDT_ToSign_Off(String sdt, Socket socket) {
+        try {
+            BufferedReader fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            BufferedWriter toServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())) ;
+            String access = fromServer.readLine();
+            System.out.println(access);
+            if(access.equals("<Oke>")) {
+                toServer.write(sdt+ "\n");
+            }
+            toServer.flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
-    public int getSuccess(Socket socket) {
+    private int getSuccess(Socket socket) {
         try {
             BufferedReader fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String access = fromServer.readLine();
             System.out.println(access);
-            if (access.equals(Request.LoginSuccess)) {
-                return 1;
+            switch (access) {
+                case Request.ExistNumberPhone : return 2 ;
+                case Request.SignUpSuccess, Request.LoginSuccess : return 1;
+                case Request.SignOffSuccess: return 3 ;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
     }
-
-    private int getServerResponse(Socket socket) {
-        try {
-            BufferedReader fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String access = fromServer.readLine();
-            System.out.println(access);
-            if(access.equals(Request.SignUpSuccess)) {return 1 ;}
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
     private Socket socket;
-    private int loginResult;
-    private int signUpResult;
-
-
-    public void setSignUpResult(int signUpResult) {
-        this.signUpResult = signUpResult;
-    }
-
-    public int getSignUpResult() {
-        return signUpResult;
-    }
-    public int getLoginResult() {
-        return loginResult;
-    }
-    public Socket getSocket() {
-        return socket;
-    }
-
-    public void setSocket(Socket socket) {
-        this.socket = socket;
-    }
+    private LoginCallBack loginCallBack ;
 }

@@ -5,12 +5,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import org.example.java_final_project.Client.Controller.ClientCore;
+import org.example.java_final_project.Client.Controller.Bank.ScreenController;
+import org.example.java_final_project.Client.Controller.Handle.ClientCore;
+import org.example.java_final_project.Client.Controller.Interface.LoginCallBack;
 import org.example.java_final_project.Main;
 import org.example.java_final_project.Model.Request;
 
@@ -19,7 +22,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class User_Sign_UpController implements Initializable {
+public class User_Sign_UpController implements Initializable , LoginCallBack {
     @FXML
     private ImageView Image_Password_closeEye;
     @FXML
@@ -60,10 +63,17 @@ public class User_Sign_UpController implements Initializable {
     private Label CheckAccount;
     private String password;
     private Stage preSignInStage ;
+    private String User_SDT ;
     public void setPreSignInStage(Stage preSignInStage) {
         this.preSignInStage = preSignInStage;
     }
 
+    public String getUser_SDT() {
+        return User_SDT;
+    }
+    public void setUser_SDT(String user_SDT) {
+        User_SDT = user_SDT;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -148,8 +158,8 @@ public class User_Sign_UpController implements Initializable {
     private void CheckFieldS() {
         boolean isUsernameEmpty = SDT_user.getText().isEmpty() ;
         boolean isGmailEmpty = Text_email.getText().isEmpty() ;
-        boolean isHoEmpty = Ho_text.getText().isEmpty() ;
-        boolean isTenEmpty = Ten_Text.getText().isEmpty() ;
+        boolean isHoEmpty = Ho_text.getText().trim().isEmpty() ;
+        boolean isTenEmpty = Ten_Text.getText().trim().isEmpty() ;
         boolean isPasswordEmpty = Pass_text_password.isVisible() ? Pass_text_password.getText().isEmpty() : Pass_password.getText().isEmpty()  ;
         if(!isUsernameEmpty && !isGmailEmpty && !isPasswordEmpty && !isHoEmpty && !isTenEmpty &&
                 !emailCheck.isVisible() && !checkIcon.isVisible() && !NumberPhone_check.isVisible()) {
@@ -192,22 +202,13 @@ public class User_Sign_UpController implements Initializable {
         return true;
     }
     private void CreateAccount() {
-        String Ho = Ho_text.getText() ;
-        String Ten = Ten_Text.getText();
+        String Ho = Ho_text.getText().trim();
+        String Ten = Ten_Text.getText().trim();
         String SDT = SDT_user.getText();
-        String email  = Text_email.getText();
-        String password = Pass_password.isVisible() ? Pass_password.getText():Pass_text_password.getText();
-        /*Other*/
-        Alert alert;
-        if(!CheckEmail(email)) {
-            alert = new Alert(Alert.AlertType.CONFIRMATION) ;
-            alert.setContentText("Thông tin giá trị lỗi");
-            alert.setHeaderText(null);
-            alert.showAndWait() ;
-        }
-        else {
-            new ClientCore(Ho,Ten,SDT,email,password, Request.SIGNUP,CheckAccount) ;
-        }
+        String email = Text_email.getText();
+        String password = Pass_password.isVisible() ? Pass_password.getText() : Pass_text_password.getText();
+        new ClientCore(Ho,Ten,SDT,email,password,Request.SIGNUP,this) ;
+
     }
     private void backToSignIn() {
         try{
@@ -219,9 +220,9 @@ public class User_Sign_UpController implements Initializable {
                         Parent root = fxmlLoader.load();
 
                         User_loginController loginController = fxmlLoader.getController() ;
-                        loginController.setPrevStage(preSignInStage); // Thay đổi scene của stage chính khi cần
+                        loginController.setPrevStage(preSignInStage);
 
-                        preSignInStage.getScene().setRoot(root); // Thay đổi root luôn có nghĩa là như một anchar pane mà nó visiable = false
+                        preSignInStage.getScene().setRoot(root);
                         System.out.println("Chuyen ve login ");
                     }catch (Exception e){
                         e.printStackTrace();
@@ -233,11 +234,45 @@ public class User_Sign_UpController implements Initializable {
             e.printStackTrace();
         }
     }
-    private void OpenNewScene(){
-        try{
+    public void changeToMainScene() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("MainScreen.fxml"));
+            Parent root = fxmlLoader.load();
+            ScreenController screenController = fxmlLoader.getController();
+            screenController.setPrevStage(preSignInStage);
+            screenController.setUserID(getUser_SDT());
 
-        }catch (Exception e){
+            Scene scene2 = new Scene(root, 338, 564);
+            preSignInStage.show();
+        } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Failed to load MainScreen.fxml or change scene.");
         }
+    }
+
+    @Override
+    public void onLoginSuccess() {
+    }
+
+    @Override
+    public void onLoginFailure(String message) {
+    }
+
+    // Sign up
+    @Override
+    public void OnSignUpSuccess() {
+        setUser_SDT(SDT_user.getText());
+        changeToMainScene();
+    }
+
+    @Override
+    public void OnSignUpFailure(String message) {
+        CheckAccount.setVisible(true);
+        CheckAccount.setText(message);
+    }
+
+    @Override
+    public void logOutSuccess() {
+
     }
 }

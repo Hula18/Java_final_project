@@ -140,7 +140,7 @@
             <Font name="Consolas Bold" size="11.0" />
          </font>
       </Label>
-      <Label fx:id="CheckAccount" layoutX="88.0" layoutY="385.0" prefHeight="17.0" prefWidth="165.0" textFill="WHITE">
+      <Label fx:id="CheckAccount" alignment="CENTER" layoutY="387.0" prefHeight="17.0" prefWidth="342.0" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Consolas Bold" size="11.0" />
          </font>

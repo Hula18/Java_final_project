@@ -1,4 +1,4 @@
-package org.example.java_final_project.Client.Controller;
+package org.example.java_final_project.Client.Controller.Handle;
 
 import java.net.InetAddress;
 import java.net.Socket;

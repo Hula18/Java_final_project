@@ -7,11 +7,10 @@ public class ConnectDB {
     public static Connection OpenConnection() {
         Connection connection = null ;
 
-        final String DATABASE_NAME = "jdbc:mysql://localhost:3306/cuoiki";
+        final String DATABASE_NAME = "jdbc:mysql://127.0.0.1:3306/bank_project";
         final String USER = "root" ;
-        final String password = "";
+        final String password = "AtomGaD18102k5!";
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver") ;
             connection = DriverManager.getConnection(DATABASE_NAME,USER,password) ;
         }catch (Exception e){
             e.printStackTrace();

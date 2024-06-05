@@ -8,13 +8,13 @@
     -fx-background-color: #7895B2 ;
     -fx-background-radius:16px ;
     -fx-text-fill: #ffffff;
-    -fx-prompt-text-fill: #ffffff;
+     -fx-prompt-text-fill: #ffffff;
 }
 .password{
      -fx-background-radius:16px ;
      -fx-background-color: #0F4C75;
      -fx-text-fill: #ffffff;
-     -fx-prompt-text-fill: #ffffff;
+      -fx-prompt-text-fill: #ffffff;
 }
 
 .button{

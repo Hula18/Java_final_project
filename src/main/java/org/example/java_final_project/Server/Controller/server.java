@@ -56,13 +56,16 @@ public class server {
             ServerThread serverThread = new ServerThread(serverController, socket);
             switch (readLine){
                 case Request.LOGIN -> {
-                    System.out.println("Đăng nhập");
+                    System.out.println("người dùng đăng nhập");
                     serverThread.DangNhap();
                 }
                 case Request.SIGNUP -> {
-                    System.out.println("Đăng ký");
+                    System.out.println("người dùng đăng ký");
                     serverThread.DangKy();
-                    /*Chưa hoàn thành*/
+                }
+                case Request.SignOff -> {
+                    System.out.println("Nggười dùng đăng xuất");
+                    serverThread.DangXuat();
                 }
             }
         }catch (Exception e){

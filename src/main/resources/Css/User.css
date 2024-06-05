@@ -2,3 +2,20 @@
     -fx-background-color: #ffffff ;
     -fx-background-radius: 50% ;
 }
+.ArrowUnder:hover{
+    -fx-background-color: #eeeeee ;
+}
+.button{
+    -fx-background-color: #ffffff;
+}
+.icon {
+    -fx-background-color: transparent ;
+}
+
+.icon:hover {
+    -fx-background-color: #686D76;
+}
+
+user_infor_button {
+    -fx-background-color: #ffffff ;
+}

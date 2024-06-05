@@ -1,0 +1,48 @@
+.user{
+    -fx-background-color: transparent ;
+    -fx-background-radius: 0px;
+}
+
+.user:hover {
+    -fx-background-color: #EEEEEE;
+}
+
+.Home{
+    -fx-background-color: transparent;
+}
+.Home:hover{
+    -fx-background-color: #3572EF;
+}
+
+.BUTTON {
+    -fx-background-color: transparent ;
+    -fx-background-radius: 0px;
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-color: #0E46A3;
+    -fx-border-style: solid;
+}
+
+.BUTTON:hover{
+    -fx-background-color: #A7E6FF;
+}
+.dangXuat{
+    -fx-background-color: #7EA1FF;
+}
+.dangXuat:hover {
+
+    -fx-opacity :0.8;
+}
+
+.send{
+    -fx-background-color:#EE4E4E;
+}
+.password{
+    -fx-background-radius: 7px;
+    -fx-border-radius: 7px ;
+}
+
+.red-border {
+    -fx-border-color: red;
+    -fx-border-width: 2;
+    -fx-border-radius: 3;
+}
