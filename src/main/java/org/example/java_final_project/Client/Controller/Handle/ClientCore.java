@@ -3,6 +3,7 @@ package org.example.java_final_project.Client.Controller.Handle;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import org.example.java_final_project.Client.Controller.Interface.LoginCallBack;
+import org.example.java_final_project.Client.Controller.Interface.Screen_Interface;
 import org.example.java_final_project.Model.Request;
 
 import java.io.*;
@@ -65,19 +66,45 @@ public class ClientCore {
             };
             new Thread(clientCore).start();
     }
-    /*Đăng xuất*/ public ClientCore(String SDT, String request,LoginCallBack loginCallBack){
+    public ClientCore(String SDT, String request,LoginCallBack loginCallBack){
+            this.socket = Client.getConnect();
+            this.loginCallBack = loginCallBack;
+            Runnable signOff = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        SendRequest(request, socket);
+                        System.out.println(request);
+                        Send_SDT_ToSearch(SDT, socket);
+                        int getSuccess = getSuccess(socket);
+                        Platform.runLater(() -> {
+                            if (getSuccess == 3) {
+                                loginCallBack.logOutSuccess();
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }finally {
+                        Client.getClose(socket);
+                    }
+                }
+            };
+            new Thread(signOff).start();
+    }
+    public ClientCore(String SDT , String oldPassword , String newPassword , String request , Screen_Interface screenInterface){
         this.socket = Client.getConnect() ;
-        this.loginCallBack = loginCallBack ;
-        Runnable signOff = new Runnable() {
+        this.screenInterface = screenInterface ;
+        Runnable change_password = new Runnable() {
             @Override
             public void run() {
                try{
                    SendRequest(request,socket);
-                   System.out.println(request);
-                   Send_SDT_ToSign_Off(SDT,socket);
-                   int signOffSuccess = getSuccess(socket);
-                   if(signOffSuccess == 3){
-                       loginCallBack.logOutSuccess();
+                   Send_SDT_Password_ToCheck(SDT,oldPassword,newPassword,socket);
+                   int n = getSuccess(socket);
+                   if( n == 5 ){
+                        screenInterface.Check_Last_Password("Mật khẩu hiện tại không đúng vui lòng thử lại");
+                   } else if (n == 6) {
+                       screenInterface.Change_Password_Success();
                    }
                }catch (Exception e){
                    e.printStackTrace();
@@ -86,8 +113,9 @@ public class ClientCore {
                }
             }
         };
-        new Thread(signOff).start();
+        new Thread(change_password).start();
     }
+
     public void SendRequest(String request, Socket socket) {
         try {
             BufferedWriter toServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -132,7 +160,7 @@ public class ClientCore {
             e.printStackTrace();
         }
     }
-    public void Send_SDT_ToSign_Off(String sdt, Socket socket) {
+    public void Send_SDT_ToSearch(String sdt, Socket socket) {
         try {
             BufferedReader fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedWriter toServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())) ;
@@ -146,7 +174,22 @@ public class ClientCore {
             e.printStackTrace();
         }
     }
-
+    public void Send_SDT_Password_ToCheck(String sdt , String password ,String newPassword, Socket socket){
+        try{
+            BufferedReader fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream())) ;
+            BufferedWriter toServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())) ;
+            String access = fromServer.readLine();
+            System.out.println(access);
+            if(access.equals(Request.OKE)) {
+                toServer.write(sdt + "\n");
+                toServer.write(password+"\n");
+                toServer.write(newPassword+"\n");
+                toServer.flush();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     private int getSuccess(Socket socket) {
         try {
             BufferedReader fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -156,6 +199,22 @@ public class ClientCore {
                 case Request.ExistNumberPhone : return 2 ;
                 case Request.SignUpSuccess, Request.LoginSuccess : return 1;
                 case Request.SignOffSuccess: return 3 ;
+                case Request.GetAccountNameSuccess:
+                   Platform.runLater(() -> {
+                      try{
+                          String ten = fromServer.readLine();
+                          if(ten != null){
+                              loginCallBack.GetUserNameSuccess(ten);
+                          }else{
+                              loginCallBack.GetUseNameFail();
+                          }
+                      }catch (Exception e){
+                          e.printStackTrace();
+                      }
+                   });
+                    return 4;
+                case Request.LastPasswordFail: return 5 ;
+                case Request.ChangePassSuccess: return 6 ;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -164,4 +223,5 @@ public class ClientCore {
     }
     private Socket socket;
     private LoginCallBack loginCallBack ;
+    private Screen_Interface screenInterface;
 }

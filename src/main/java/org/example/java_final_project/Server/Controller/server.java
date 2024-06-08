@@ -67,6 +67,14 @@ public class server {
                     System.out.println("Nggười dùng đăng xuất");
                     serverThread.DangXuat();
                 }
+                case Request.GetAccountName -> {
+                    System.out.println("Người dùng tìm người");
+                    serverThread.GetUser() ;
+                }
+                case Request.ChangePassword -> {
+                    System.out.println("Người dùng đổi mật khẩu");
+                    serverThread.ThayDoiMatKhau();
+                }
             }
         }catch (Exception e){
             e.printStackTrace();

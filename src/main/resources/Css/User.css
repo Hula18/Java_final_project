@@ -5,8 +5,11 @@
 .ArrowUnder:hover{
     -fx-background-color: #eeeeee ;
 }
-.button{
+.chucNang{
     -fx-background-color: #ffffff;
+}
+.chucNang:hover{
+    -fx-opacity: 0.9;
 }
 .icon {
     -fx-background-color: transparent ;

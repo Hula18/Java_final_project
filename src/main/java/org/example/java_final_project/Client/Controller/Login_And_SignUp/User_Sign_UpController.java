@@ -275,4 +275,14 @@ public class User_Sign_UpController implements Initializable , LoginCallBack {
     public void logOutSuccess() {
 
     }
+
+    @Override
+    public void GetUserNameSuccess(String accountName) {
+
+    }
+
+    @Override
+    public void GetUseNameFail() {
+
+    }
 }

@@ -26,19 +26,23 @@
     -fx-background-color: #A7E6FF;
 }
 .dangXuat{
-    -fx-background-color: #7EA1FF;
+    -fx-background-color: #EE4E4E;
 }
 .dangXuat:hover {
-
+    -fx-background-color: #008DDA;
     -fx-opacity :0.8;
 }
 
 .send{
     -fx-background-color:#EE4E4E;
 }
+.send:hover{
+    -fx-background-color: #3572EF;
+}
 .password{
     -fx-background-radius: 7px;
     -fx-border-radius: 7px ;
+    -fx-border-color: #686D76;
 }
 
 .red-border {

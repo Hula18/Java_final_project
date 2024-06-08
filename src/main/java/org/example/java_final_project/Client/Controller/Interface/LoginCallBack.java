@@ -6,4 +6,6 @@ public interface LoginCallBack {
     void OnSignUpSuccess() ;
     void OnSignUpFailure(String message) ;
     void logOutSuccess();
+    void GetUserNameSuccess(String accountName);
+    void GetUseNameFail() ;
 }

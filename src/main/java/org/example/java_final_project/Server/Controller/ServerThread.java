@@ -117,11 +117,66 @@ public class ServerThread{
         new Thread(DangXuat).start();
     }
 
+    public void GetUser(){
+        try{
+            checkStatus();
+            Runnable layDauLieu = new Runnable() {
+                @Override
+                public void run() {
+                    try{
+                        BufferedReader fromClient = new BufferedReader(new InputStreamReader(socket.getInputStream())) ;
+                        BufferedWriter toClient = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())) ;
+                        String data = fromClient.readLine();
+                        User user = UserDAO.verifyUserBy_SDT(new User(data)) ;
+                        if(user != null){
+                            toClient.write(Request.GetAccountNameSuccess +"\n");
+                            toClient.write(user.getHo() + " "+user.getTen() + "\n");
+                            System.out.println(user.getHo()+ " "+user.getTen());
+                            toClient.flush();
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            } ;
+            new Thread(layDauLieu).start();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void ThayDoiMatKhau(){
+            checkStatus();
+            Runnable checkDuLieu = new Runnable() {
+                @Override
+                public void run() {
+                    try{
+                        BufferedReader fromClient = new BufferedReader(new InputStreamReader(socket.getInputStream())) ;
+                        BufferedWriter toClient = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())) ;
+                        String sdt = fromClient.readLine() ;
+                        String oldPassword = fromClient.readLine() ;
+                        String newPassword = fromClient.readLine() ;
+                        User user = UserDAO.verifyUser(new User(sdt,oldPassword)) ;
+                        if(user != null){
+                            UserDAO.updatePassword(user.getSDT(),newPassword);
+                            toClient.write(Request.ChangePassSuccess+"\n");
+                            toClient.flush();
+                        }else {
+                            toClient.write(Request.LastPasswordFail+"\n");
+                            toClient.flush();
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            };
+            new Thread(checkDuLieu).start();
+    }
+
     public void checkStatus(){
         try{
-            BufferedWriter toServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())) ;
-            toServer.write(Request.OKE+"\n");
-            toServer.flush();
+            BufferedWriter toClient = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())) ;
+            toClient.write(Request.OKE+"\n");
+            toClient.flush();
         }catch (Exception e){
             e.printStackTrace();
         }

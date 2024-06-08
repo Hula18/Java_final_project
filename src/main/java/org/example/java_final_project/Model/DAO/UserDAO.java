@@ -152,6 +152,17 @@ public class UserDAO {
         }
         return null ;
     }
+    public static void updatePassword(String sdt , String newPassword){
+        try{
+            PreparedStatement preparedStatement = conn.prepareStatement("UPDATE `bank` SET `Password` = ? WHERE `SDT` = ?") ;
+            preparedStatement.setString(1,newPassword);
+            preparedStatement.setString(2,sdt);
+
+            preparedStatement.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     public boolean checkIsBanned(User user){
         try{

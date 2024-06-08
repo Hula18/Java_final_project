@@ -16,5 +16,11 @@ public class Request {
     public static final String OKE = "<Oke>" ;
     public static final String SignOff = "<Sign-Off>";
     public static final String SignOffSuccess = "<Off-Success>";
+    public static final String GetAccountName="<Get-Account-Name>";
+    public static final String GetAccountNameSuccess="<Get-Account-Name-Success>";
+    public static final String ChangePassword = "<Change-password>" ;
+    public static final String ChangePassSuccess = "<Change-pass-success>";
+    public static final String LastPasswordFail = "<Failure-last-password>";
+
 
 }

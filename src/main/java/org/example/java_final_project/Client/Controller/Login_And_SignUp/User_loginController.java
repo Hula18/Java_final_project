@@ -161,7 +161,7 @@ public class User_loginController implements Initializable,LoginCallBack {
                 Parent root = fxmlLoader.load();
                 ScreenController screenController = fxmlLoader.getController();
                 screenController.setPrevStage(prevStage);
-                screenController.setUserID(getUser_ID());
+                screenController.setUserID(SDT_text.getText());
 
                 Scene scene2 = new Scene(root, 338, 564);
                 prevStage.setScene(scene2);
@@ -197,6 +197,16 @@ public class User_loginController implements Initializable,LoginCallBack {
 
     @Override
     public void logOutSuccess() {
+
+    }
+
+    @Override
+    public void GetUserNameSuccess(String accountName) {
+
+    }
+
+    @Override
+    public void GetUseNameFail() {
 
     }
 }
