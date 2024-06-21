@@ -1,0 +1,17 @@
+.Nut{
+    -fx-background-color: #ffffff ;
+    -fx-background-radius: 6px;
+}
+.Nut:hover{
+    -fx-opacity: 0.9 ;
+}
+
+.XacNhan{
+    -fx-background-color:  #111ecd;
+    -fx-background-radius: 13px;
+    -fx-text-fill: white;
+}
+.XacNhan:hover{
+    -fx-background-color: #80C4E9;
+    -fx-text-fill: black;
+}

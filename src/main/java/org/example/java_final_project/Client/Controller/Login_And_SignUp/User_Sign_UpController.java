@@ -243,6 +243,7 @@ public class User_Sign_UpController implements Initializable , LoginCallBack {
             screenController.setUserID(getUser_SDT());
 
             Scene scene2 = new Scene(root, 338, 564);
+            preSignInStage.setScene(scene2);
             preSignInStage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -283,6 +284,21 @@ public class User_Sign_UpController implements Initializable , LoginCallBack {
 
     @Override
     public void GetUseNameFail() {
+
+    }
+
+    @Override
+    public void Change_Pin_Success() {
+
+    }
+
+    @Override
+    public void Chang_Pin_failed() {
+
+    }
+
+    @Override
+    public void UserIsAlreadyUsing() {
 
     }
 }

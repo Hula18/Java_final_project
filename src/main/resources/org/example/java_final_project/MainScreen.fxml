@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -11,7 +13,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane minHeight="564.0" minWidth="340.0" prefHeight="564.0" prefWidth="340.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.java_final_project.Client.Controller.Bank.ScreenController">
@@ -92,7 +96,7 @@
                               </AnchorPane>
                            </graphic>
                         </Button>
-                        <Button layoutX="129.0" layoutY="64.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="72.0" styleClass="chucNang" stylesheets="@../../../Css/User.css">
+                        <Button fx:id="Button_RutTien" layoutX="129.0" layoutY="64.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="72.0" styleClass="chucNang" stylesheets="@../../../Css/User.css">
                            <effect>
                               <DropShadow height="20.0" radius="9.5" width="20.0">
                                  <color>
@@ -142,7 +146,7 @@
                               </Pane>
                            </graphic>
                         </Button>
-                        <Button layoutX="69.0" layoutY="169.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="79.0" styleClass="chucNang" stylesheets="@../../../Css/User.css">
+                        <Button fx:id="NapDienThoai_button" layoutX="69.0" layoutY="169.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="79.0" styleClass="chucNang" stylesheets="@../../../Css/User.css">
                            <effect>
                               <DropShadow height="20.0" radius="9.5" width="20.0">
                                  <color>
@@ -211,7 +215,7 @@
                               <Font name="Berlin Sans FB" size="17.0" />
                            </font>
                         </Label>
-                        <Label fx:id="Name_user" alignment="CENTER" layoutX="1.0" layoutY="88.0" prefHeight="30.0" prefWidth="340.0" text="TRAN NGUYEN TIEN TUNG" textAlignment="CENTER" textFill="#83b4ff" wrapText="true">
+                        <Label fx:id="Name_user" alignment="CENTER" layoutY="88.0" prefHeight="30.0" prefWidth="340.0" text="TRAN NGUYEN TIEN TUNG" textAlignment="CENTER" textFill="#83b4ff" wrapText="true">
                            <font>
                               <Font name="Consolas Bold" size="25.0" />
                            </font>
@@ -383,7 +387,7 @@
                            </graphic>
                         </Button>
                      </children></Pane>
-                  <Button layoutY="282.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="340.0" styleClass="BUTTON" stylesheets="@../../../Css/User_Infor.css">
+                  <Button fx:id="Doi_Ma_Pin" layoutY="282.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="340.0" styleClass="BUTTON" stylesheets="@../../../Css/User_Infor.css">
                      <graphic>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
@@ -411,11 +415,59 @@
                   </Button>
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="Screen_maPIN" prefHeight="565.0" prefWidth="340.0" visible="false">
+               <children>
+                  <Pane prefHeight="51.0" prefWidth="340.0" style="-fx-background-color: #F6DCAC;">
+                     <children>
+                        <Button fx:id="Move_back_4" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="4.0" layoutY="11.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="31.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
+                           <graphic>
+                              <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Picture/left-arrow-1.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="112.0" layoutY="15.0" text="Thay đổi mã PIN" textFill="#7d652c">
+                           <font>
+                              <Font name="Calibri Bold" size="17.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <PasswordField fx:id="MaPinCu" alignment="CENTER" layoutX="90.0" layoutY="180.0" promptText="Mã PIN cũ">
+                     <font>
+                        <Font name="Calibri" size="13.0" />
+                     </font>
+                  </PasswordField>
+                  <Label layoutX="89.0" layoutY="276.0" text="+ Mã PIN khi bạn mới tạo tài khoản sẽ là 0 " textFill="#8b8b8b">
+                     <font>
+                        <Font name="Calibri Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="MaPinMoi" alignment="CENTER" layoutX="90.0" layoutY="217.0" promptText="Mã PIN mới">
+                     <font>
+                        <Font name="Calibri" size="13.0" />
+                     </font>
+                  </PasswordField>
+                  <Label layoutX="51.0" layoutY="276.0" text="Chú ý :" textFill="#797575">
+                     <font>
+                        <Font name="Calibri Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="89.0" layoutY="294.0" text="+ Mã PIN mới của bạn phải có 6 chữ số" textFill="#8b8b8b">
+                     <font>
+                        <Font name="Calibri Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="ChangePinOTP" layoutX="65.0" layoutY="373.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="210.0" text="Thay đổi mã PIN" />
+               </children>
+            </AnchorPane>
             <AnchorPane fx:id="change_Pass_Pane" prefHeight="564.0" prefWidth="340.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Pane prefHeight="55.0" prefWidth="340.0" style="-fx-background-color: #F6DCAC;">
+                  <Pane prefHeight="51.0" prefWidth="340.0" style="-fx-background-color: #F6DCAC;">
                      <children>
-                        <Button fx:id="Move_back_1" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="2.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="33.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
+                        <Button fx:id="Move_back_1" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="2.0" layoutY="12.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="33.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
                            <graphic>
                               <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -429,7 +481,7 @@
                               <Font name="Calibri Bold" size="17.0" />
                            </font>
                         </Label>
-                        <Button fx:id="Home_button_1" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="304.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="33.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
+                        <Button fx:id="Home_button_1" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="304.0" layoutY="12.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="33.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
                            <graphic>
                               <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -525,14 +577,14 @@
                      </image>
                   </ImageView>
                   <Label fx:id="TrueOrNot" alignment="CENTER" layoutX="20.0" layoutY="456.0" prefHeight="17.0" prefWidth="304.0" textAlignment="CENTER" />
-                  <AnchorPane fx:id="check_pane" layoutX="18.0" layoutY="290.0" prefHeight="75.0" prefWidth="304.0" style="-fx-background-color: black;" visible="false">
+                  <AnchorPane fx:id="check_pane" layoutX="18.0" layoutY="297.0" prefHeight="75.0" prefWidth="304.0" visible="false">
                      <children>
                         <ImageView fx:id="not_1" fitHeight="13.0" fitWidth="13.0" layoutX="19.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../Picture/error.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="38.0" layoutY="9.0" text="Phải có chữ viết hoa" textFill="WHITE">
+                        <Label layoutX="38.0" layoutY="9.0" text="Phải có chữ viết hoa">
                            <font>
                               <Font name="Calibri" size="11.0" />
                            </font>
@@ -542,7 +594,7 @@
                               <Image url="@../../../Picture/error.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="38.0" layoutY="31.0" text="Phải có một trong 2 thứ này : chữ ,số ,ký hiệu" textFill="WHITE">
+                        <Label layoutX="38.0" layoutY="31.0" text="Phải có một trong 2 thứ này : chữ ,số ,ký hiệu">
                            <font>
                               <Font name="Calibri" size="11.0" />
                            </font>
@@ -552,7 +604,7 @@
                               <Image url="@../../../Picture/error.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="38.0" layoutY="53.0" text="Có it nhất 8 chữ cái" textFill="WHITE">
+                        <Label layoutX="38.0" layoutY="53.0" text="Có it nhất 8 chữ cái">
                            <font>
                               <Font name="Calibri" size="11.0" />
                            </font>
@@ -682,7 +734,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Pane fx:id="Noi_Dung_Pane" layoutX="32.0" layoutY="376.0" prefHeight="17.0" prefWidth="131.0" style="-fx-background-color: #ffffff;">
+                  <Pane layoutX="32.0" layoutY="376.0" prefHeight="17.0" prefWidth="131.0" style="-fx-background-color: #ffffff;">
                      <children>
                         <Label layoutX="3.0" text="Nội dung chuyển tiền" />
                         <Label layoutX="118.0" prefHeight="7.0" prefWidth="3.0" text="*" textFill="RED">
@@ -720,7 +772,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <ImageView fx:id="show_notify" fitHeight="17.0" fitWidth="17.0" layoutX="296.0" layoutY="336.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="ct_chuY" fitHeight="17.0" fitWidth="17.0" layoutX="296.0" layoutY="336.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../Picture/warning1.png" />
                      </image>
@@ -740,9 +792,69 @@
                         <Image url="@../../../Picture/cancel.png" />
                      </image>
                   </ImageView>
+                  <Label fx:id="CT_ThongBao" alignment="CENTER" layoutX="1.0" layoutY="488.0" prefHeight="17.0" prefWidth="340.0" textFill="#679662">
+                     <font>
+                        <Font name="Calibri Bold" size="11.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="chuyen_tien_sreen2" prefHeight="564.0" prefWidth="340.0">
+            <AnchorPane fx:id="pin_Otp_1" prefHeight="564.0" prefWidth="340.0" style="-fx-background-color: #ffffff;" visible="false">
+               <children>
+                  <Pane prefHeight="51.0" prefWidth="340.0" style="-fx-background-color: #F6DCAC;">
+                     <children>
+                        <Button fx:id="Move_back_5" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="4.0" layoutY="11.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="31.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
+                           <graphic>
+                              <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Picture/left-arrow-1.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="127.0" layoutY="15.0" text="Chuyển tiền" textFill="#7d652c">
+                           <font>
+                              <Font name="Calibri Bold" size="17.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Label layoutX="44.0" layoutY="125.0" prefHeight="39.0" prefWidth="251.0" text="Vui lòng nhập mã PIN OTP của bạn để  thực hiện giao dịch này" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="MaPin" alignment="CENTER" layoutX="84.0" layoutY="198.0" prefHeight="25.0" prefWidth="171.0" promptText="PIN của bạn">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color red="0.6666666865348816" green="0.6666666865348816" blue="0.6666666865348816" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </PasswordField>
+                  <Pane layoutY="319.0" prefHeight="59.0" prefWidth="340.0" style="-fx-background-color: #ffffff;">
+                     <children>
+                        <Button fx:id="CT_chuyentien" layoutX="16.0" layoutY="13.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="304.0" styleClass="send" stylesheets="@../../../Css/User_Infor.css" text="Xác thực" textFill="WHITE">
+                           <font>
+                              <Font name="Calibri Bold" size="14.0" />
+                           </font>
+                           <effect>
+                              <DropShadow>
+                                 <color>
+                                    <Color red="0.7105262875556946" green="0.7105262875556946" blue="0.7105262875556946" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                        </Button>
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="chuyen_tien_sreen2" prefHeight="564.0" prefWidth="340.0" visible="false">
                <children>
                   <Pane prefHeight="51.0" prefWidth="340.0" style="-fx-background-color: #F6DCAC;">
                      <children>
@@ -778,7 +890,7 @@
                   </Label>
                   <Pane layoutX="18.0" layoutY="84.0" prefHeight="43.0" prefWidth="304.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="RIGHT" layoutX="-6.0" layoutY="3.0" prefHeight="39.0" prefWidth="315.0" text="100,000,000" textAlignment="JUSTIFY">
+                        <Label fx:id="soTienChuyen" alignment="CENTER" contentDisplay="RIGHT" layoutX="-6.0" layoutY="3.0" prefHeight="39.0" prefWidth="315.0" text="100,000,000" textAlignment="JUSTIFY">
                            <font>
                               <Font name="Calibri Bold" size="30.0" />
                            </font>
@@ -846,19 +958,19 @@
                               <Font name="Calibri" size="13.0" />
                            </font>
                         </Label>
-                        <Label layoutX="11.0" layoutY="48.0" opacity="0.56" text="Số tiền bằng chữ ">
+                        <Label layoutX="11.0" layoutY="51.0" opacity="0.56" text="Số tiền bằng chữ ">
                            <font>
                               <Font name="Calibri" size="13.0" />
                            </font>
                         </Label>
-                        <Label layoutX="13.0" layoutY="98.0" opacity="0.56" text="Nội dung">
+                        <Label layoutX="13.0" layoutY="111.0" opacity="0.56" text="Nội dung">
                            <font>
                               <Font name="Calibri" size="13.0" />
                            </font>
                         </Label>
-                        <Label fx:id="NoiDungChuyenKhoan" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="157.0" layoutY="99.0" prefWidth="150.0" text="NGUYEN TAN DUY chuyen khoan" textAlignment="RIGHT" wrapText="true" />
+                        <Label fx:id="NoiDungChuyenKhoan" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="157.0" layoutY="112.0" prefWidth="150.0" text="NGUYEN TAN DUY chuyen khoan" textAlignment="RIGHT" wrapText="true" />
                         <Label layoutX="258.0" layoutY="11.0" text="Miễn phí" />
-                        <Label fx:id="SoTienBangChu_1" alignment="TOP_RIGHT" layoutX="160.0" layoutY="50.0" prefWidth="150.0" text="50 triệu Việt Nam Đồng" textAlignment="RIGHT" wrapText="true">
+                        <Label fx:id="SoTienBangChu_1" alignment="TOP_RIGHT" layoutX="160.0" layoutY="53.0" prefWidth="150.0" text="50 triệu Việt Nam Đồng" textAlignment="RIGHT" wrapText="true">
                            <padding>
                               <Insets right="4.0" />
                            </padding>
@@ -901,11 +1013,170 @@
                   </ImageView>
                </graphic>
             </Button>
-            <AnchorPane fx:id="pin_Otp_1" prefHeight="564.0" prefWidth="340.0" style="-fx-background-color: #eeeeee;" visible="false">
+            <AnchorPane fx:id="ChuyenTienThanhCong" prefHeight="564.0" prefWidth="340.0" visible="false">
                <children>
+                  <ImageView fitHeight="204.0" fitWidth="340.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../Picture/8a258ca1dac8974bdeba4484b8d81d2a.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="151.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Picture/check.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="78.0" layoutY="73.0" text="Bạn đã chuyển tiền thành công" textFill="#ac0064">
+                     <font>
+                        <Font name="Candara Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="Tien_Xac_Nhan" alignment="CENTER" contentDisplay="RIGHT" layoutX="-1.0" layoutY="101.0" prefHeight="37.0" prefWidth="340.0" text="10000000" textAlignment="CENTER" textFill="#c2e0ff">
+                     <font>
+                        <Font name="Calibri Bold" size="32.0" />
+                     </font>
+                     <graphic>
+                        <Label alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="63.0" text="VND" textAlignment="RIGHT" textFill="#c2e0ff">
+                           <font>
+                              <Font name="Calibri Bold" size="32.0" />
+                           </font>
+                        </Label>
+                     </graphic>
+                  </Label>
+                  <Pane layoutX="15.0" layoutY="162.0" prefHeight="81.0" prefWidth="310.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10px;">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color red="0.43921568989753723" green="0.43529412150382996" blue="0.43529412150382996" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <children>
+                        <Label layoutX="6.0" layoutY="6.0" text="Đến tài khoản" textFill="#7d7d7d">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="TenNguoiNhanTien" layoutX="46.0" layoutY="30.0" prefHeight="17.0" text="NGUYEN THANH TIEN TUNG">
+                           <font>
+                              <Font name="Berlin Sans FB" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="SDT_Nguoi_Nhan" layoutX="46.0" layoutY="50.0" text="0914084362">
+                           <font>
+                              <Font name="Arial" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="15.0" layoutY="259.0" prefHeight="211.0" prefWidth="310.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10px;">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color red="0.43921568989753723" green="0.43529412150382996" blue="0.43529412150382996" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <children>
+                        <Label layoutX="7.0" layoutY="12.0" text="Tài khoản nguồn" textFill="#808080">
+                           <font>
+                              <Font name="Calibri" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="7.0" layoutY="59.0" text="Nội dung" textFill="#808080">
+                           <font>
+                              <Font name="Calibri" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="6.0" layoutY="113.0" text="Thời gian" textFill="#808080">
+                           <font>
+                              <Font name="Calibri" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="SDT_nguoiChuyen" layoutX="233.0" layoutY="14.0" text="0966365009">
+                           <font>
+                              <Font name="Arial" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="Ten_Nguoi_Chuyen" alignment="CENTER_RIGHT" layoutX="9.0" layoutY="30.0" prefHeight="17.0" prefWidth="291.0" text="NGUYEN TAN DUY" textAlignment="RIGHT">
+                           <font>
+                              <Font name="Berlin Sans FB" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="Noi_Dung" alignment="TOP_RIGHT" layoutX="150.0" layoutY="59.0" prefHeight="42.0" prefWidth="150.0" text="Chuyen tien qua QR" textAlignment="RIGHT" wrapText="true">
+                           <font>
+                              <Font name="Calibri" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="ThoiGian" layoutX="206.0" layoutY="113.0" text="19:57 , 08/06/2024">
+                           <font>
+                              <Font name="Calibri" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="6.0" layoutY="159.0" text="Hình thức chuyển" textFill="#808080">
+                           <font>
+                              <Font name="Calibri" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="167.0" layoutY="159.0" prefHeight="42.0" prefWidth="133.0" text="Chuyển nhanh Napas 24/7" textAlignment="RIGHT" wrapText="true">
+                           <font>
+                              <Font name="Calibri" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Button fx:id="Move_back_6" layoutX="15.0" layoutY="490.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="141.0" styleClass="ManHinhChinh" stylesheets="@../../../Css/User_Infor.css" text="Màn hình chính" textFill="#3572ef">
+                     <font>
+                        <Font name="Arial Bold" size="11.0" />
+                     </font></Button>
+                  <Button fx:id="New_Chuyen_Tien" layoutX="183.0" layoutY="490.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="141.0" styleClass="GiaoDichMoi" stylesheets="@../../../Css/User_Infor.css" text="Giao dịch mới" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Bold" size="11.0" />
+                     </font></Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="RutTien_screen_1" prefHeight="564.0" prefWidth="340.0" style="-fx-background-color: #f7f7f7;" visible="false">
+               <children>
+                  <Button fx:id="TaoMaRutTien" layoutX="12.0" layoutY="72.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="315.0" styleClass="Nut" stylesheets="@../../../Css/rutTien.css" textFill="#bababa">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color red="0.6842105388641357" green="0.6842105388641357" blue="0.6842105388641357" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="58.0" prefWidth="313.0">
+                           <children>
+                              <Label alignment="CENTER" layoutX="47.0" layoutY="13.0" text="Tạo mã rút tiền">
+                                 <font>
+                                    <Font name="Calibri Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="48.0" layoutY="30.0" text="Mã được tạo để rút tiền miễn phí tại ATM">
+                                 <font>
+                                    <Font name="Cambria" size="12.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="32.0" fitWidth="29.0" layoutX="8.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Picture/atm.png" />
+                                 </image>
+                                 <viewport>
+                                    <Rectangle2D />
+                                 </viewport>
+                              </ImageView>
+                              <ImageView fitHeight="32.0" fitWidth="15.0" layoutX="285.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Picture/right-arrow.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
                   <Pane prefHeight="51.0" prefWidth="340.0" style="-fx-background-color: #F6DCAC;">
                      <children>
-                        <Button fx:id="Move_back_21" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="4.0" layoutY="11.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="31.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
+                        <Button fx:id="Move_back_7" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="4.0" layoutY="11.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="31.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
                            <graphic>
                               <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -914,32 +1185,838 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Label layoutX="127.0" layoutY="15.0" text="Chuyển tiền" textFill="#7d652c">
+                        <Label layoutX="123.0" layoutY="15.0" text="Rút tiền ATM" textFill="#7d652c">
                            <font>
                               <Font name="Calibri Bold" size="17.0" />
                            </font>
                         </Label>
                      </children>
                   </Pane>
-                  <Label layoutX="44.0" layoutY="125.0" prefHeight="39.0" prefWidth="251.0" text="Vui lòng nhập mã PIN OTP của bạn để  tạo mã xác thực cho giao dịch này" textAlignment="CENTER" wrapText="true">
+                  <Button layoutX="12.0" layoutY="157.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="315.0" styleClass="Nut" stylesheets="@../../../Css/rutTien.css" textFill="#bababa">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color red="0.6842105388641357" green="0.6842105388641357" blue="0.6842105388641357" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="58.0" prefWidth="295.0">
+                           <children>
+                              <Label alignment="CENTER" layoutX="49.0" layoutY="21.0" text="Lịch sử rút tiền">
+                                 <font>
+                                    <Font name="Calibri Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="10.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Picture/history.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="32.0" fitWidth="15.0" layoutX="283.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Picture/right-arrow.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="1.0" prefHeight="564.0" prefWidth="340.0" style="-fx-background-color: #eaf3fd;" visible="false">
+               <children>
+                  <Pane prefHeight="51.0" prefWidth="340.0" style="-fx-background-color: #F6DCAC;">
+                     <children>
+                        <Button alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="4.0" layoutY="11.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="31.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
+                           <graphic>
+                              <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Picture/left-arrow-1.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="112.0" layoutY="15.0" text="Lịch sử giao dịch" textFill="#7d652c">
+                           <font>
+                              <Font name="Calibri Bold" size="17.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Button layoutX="45.0" layoutY="51.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="75.0" text="Của tôi" />
+                  <Button layoutX="186.0" layoutY="51.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="124.0" text="Biến động số dư" />
+                  <VBox layoutY="82.0" prefHeight="483.0" prefWidth="340.0" style="-fx-background-color: #fafbfd;" visible="false" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="rt_screen_main_1" layoutX="1.0" prefHeight="564.0" prefWidth="340.0" style="-fx-background-color: #f7f7f7;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Pane prefHeight="51.0" prefWidth="340.0" style="-fx-background-color: #F6DCAC;">
+                     <children>
+                        <Button fx:id="Move_back_8" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="4.0" layoutY="11.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="31.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
+                           <graphic>
+                              <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Picture/left-arrow-1.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="123.0" layoutY="15.0" text="Rút tiền ATM" textFill="#7d652c">
+                           <font>
+                              <Font name="Calibri Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="Home_9" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="301.0" layoutY="11.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="33.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
+                           <graphic>
+                              <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Picture/home.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </Pane>
+                  <AnchorPane fx:id="rt_information" layoutX="15.0" layoutY="67.0" prefHeight="66.0" prefWidth="310.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5px; -fx-border-color: black; -fx-border-radius: 5px;">
+                     <children>
+                        <Label layoutX="12.0" layoutY="11.0" text="Tài khoản nguồn :">
+                           <font>
+                              <Font name="Calibri" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="rt_SoTaiKhoan" layoutX="102.0" layoutY="12.0" text="0914084362 -">
+                           <font>
+                              <Font name="Calibri" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="rt_rutTien_name_1" layoutX="167.0" layoutY="12.0" text="NGUYEN THANH TIEN TUNG">
+                           <font>
+                              <Font name="Calibri" size="11.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="rt_SoTien" contentDisplay="RIGHT" layoutX="14.0" layoutY="31.0" text="11,384">
+                           <font>
+                              <Font name="Calibri" size="20.0" />
+                           </font>
+                           <graphic>
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="VND">
+                                 <font>
+                                    <Font name="Calibri" size="19.0" />
+                                 </font>
+                              </Label>
+                           </graphic>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <Label layoutX="14.0" layoutY="159.0" text="Chọn số tiền cần rút (VND)">
+                     <font>
+                        <Font name="Calibri Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Pane layoutY="181.0" prefHeight="134.0" prefWidth="341.0">
+                     <children>
+                        <Button fx:id="rt_Button_1_5tr" layoutX="14.0" layoutY="10.0" maxHeight="48.0" minHeight="48.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="94.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 4px; -fx-border-radius: 4px;" text="5,000,000">
+                           <font>
+                              <Font name="Berlin Sans FB" size="13.0" />
+                           </font>
+                           <effect>
+                              <DropShadow height="1.0" radius="0.0" width="0.0" />
+                           </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button fx:id="rt_Button_2_3tr" layoutX="125.0" layoutY="10.0" maxHeight="48.0" minHeight="48.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="94.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 4px; -fx-border-radius: 4px;" text="3,000,000">
+                           <font>
+                              <Font name="Berlin Sans FB" size="13.0" />
+                           </font>
+                           <effect>
+                              <DropShadow height="1.0" radius="0.0" width="0.0" />
+                           </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button fx:id="rt_Button_3_2tr" layoutX="235.0" layoutY="10.0" maxHeight="48.0" minHeight="48.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="94.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 4px; -fx-border-radius: 4px;" text="2,000,000">
+                           <font>
+                              <Font name="Berlin Sans FB" size="13.0" />
+                           </font>
+                           <effect>
+                              <DropShadow height="1.0" radius="0.0" width="0.0" />
+                           </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button fx:id="rt_Button_4_1tr" layoutX="68.0" layoutY="74.0" maxHeight="48.0" minHeight="48.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="94.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 4px; -fx-border-radius: 4px;" text="1,000,000">
+                           <font>
+                              <Font name="Berlin Sans FB" size="13.0" />
+                           </font>
+                           <effect>
+                              <DropShadow height="1.0" radius="0.0" width="0.0" />
+                           </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button fx:id="rt_Button_5_soKhac" layoutX="186.0" layoutY="74.0" maxHeight="48.0" minHeight="48.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="94.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 4px; -fx-border-radius: 4px;" text="Số khác">
+                           <font>
+                              <Font name="Calibri Bold" size="11.0" />
+                           </font>
+                           <effect>
+                              <DropShadow height="1.0" radius="0.0" width="0.0" />
+                           </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </Pane>
+                  <Pane layoutY="404.0" prefHeight="200.0" prefWidth="341.0" visible="false" />
+                  <Pane fx:id="rt_SoKhac_nhap" layoutY="313.0" prefHeight="81.0" prefWidth="340.0" visible="false">
+                     <children>
+                        <Label layoutX="14.0" layoutY="2.0" text="Số tiền">
+                           <font>
+                              <Font name="Calibri Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="rt_SoKhac_tien" alignment="CENTER" layoutX="27.0" layoutY="24.0" prefHeight="30.0" prefWidth="286.0" promptText="0" style="-fx-background-color: #ffffff; -fx-border-radius: 8px; -fx-border-color: #5A639C; -fx-background-radius: 8px; -fx-text-fill: #9B86BD;">
+                           <effect>
+                              <DropShadow>
+                                 <color>
+                                    <Color red="0.6235294342041016" green="0.7254902124404907" blue="0.9137254953384399" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                           <font>
+                              <Font name="Comic Sans MS Bold" size="14.0" />
+                           </font>
+                        </TextField>
+                        <Label fx:id="rt_warming" alignment="CENTER" layoutX="1.0" layoutY="64.0" prefHeight="11.0" prefWidth="340.0" text="Số tiền rút bé hơn 10,000,000 VND" textFill="#ff6969">
+                           <font>
+                              <Font name="Arial Bold" size="9.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Button fx:id="rt_TiepTuc" layoutX="45.0" layoutY="520.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="251.0" styleClass="XacNhan" stylesheets="@../../../Css/rutTien.css" text="Tiếp tục" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Pane fx:id="rt_SoKhac_LuuY" layoutY="314.0" prefHeight="103.0" prefWidth="340.0" visible="false">
+                     <children>
+                        <Label layoutX="15.0" layoutY="-1.0" text="Lưu ý">
+                           <font>
+                              <Font name="Calibri Bold" size="13.0" />
+                           </font></Label>
+                        <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="29.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../Picture/approve.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="47.0" layoutY="22.0" text="Số tiền rút là bội số của ">
+                           <font>
+                              <Font name="Calibri" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="160.0" layoutY="22.0" text=" 50,000 VND" textFill="#009d8f">
+                           <font>
+                              <Font name="Calibri" size="12.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="29.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../Picture/approve.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="47.0" layoutY="45.0" text="Số tiền rút tối thiểu ">
+                           <font>
+                              <Font name="Calibri" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="144.0" layoutY="45.0" text="50,000 VND" textFill="#009d8f">
+                           <font>
+                              <Font name="Calibri" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="206.0" layoutY="45.0" text="và tối đa ">
+                           <font>
+                              <Font name="Calibri" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="47.0" layoutY="60.0" text="10,000,000 VND" textFill="#009d8f">
+                           <font>
+                              <Font name="Calibri" size="12.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="29.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../Picture/approve.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="47.0" layoutY="78.0" text="Số tiền rút tối đa 1 ngày ">
+                           <font>
+                              <Font name="Calibri" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="167.0" layoutY="78.0" text="0" textFill="#009d8f">
+                           <font>
+                              <Font name="Calibri" size="12.0" />
+                           </font>
+                           <graphic>
+                              <Label text="/ 50,000,000 VND" textFill="#009d8f">
+                                 <font>
+                                    <Font name="Calibri" size="12.0" />
+                                 </font>
+                              </Label>
+                           </graphic>
+                        </Label>
+                     </children></Pane>
+                  <Label fx:id="rt_checkInformation" alignment="CENTER" layoutX="1.0" layoutY="137.0" prefHeight="17.0" prefWidth="340.0" text="Số dư không đủ để thực hiện được" textFill="#ff6969" visible="false">
+                     <font>
+                        <Font name="System Bold" size="9.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="XNRT" prefHeight="564.0" prefWidth="340.0" visible="false">
+               <children>
+                  <Pane prefHeight="51.0" prefWidth="340.0" style="-fx-background-color: #F6DCAC;">
+                     <children>
+                        <Button fx:id="Move_back_9" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="4.0" layoutY="11.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="31.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
+                           <graphic>
+                              <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Picture/left-arrow-1.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="109.0" layoutY="15.0" text="Xác nhận rút tiền" textFill="#7d652c">
+                           <font>
+                              <Font name="Calibri Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="Home_10" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="304.0" layoutY="11.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="33.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
+                           <graphic>
+                              <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Picture/home.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                     <effect>
+                        <DropShadow height="34.63" radius="13.4075">
+                           <color>
+                              <Color red="0.5087719559669495" green="0.5087719559669495" blue="0.5087719559669495" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </Pane>
+                  <Pane layoutX="30.0" layoutY="73.0" prefHeight="288.0" prefWidth="280.0" style="-fx-background-color: #f3f7ff; -fx-border-color: #1679AB; -fx-border-radius: 4px;">
+                     <children>
+                        <Label layoutX="11.0" layoutY="7.0" opacity="0.8" text="Tài khoản thanh toán">
+                           <font>
+                              <Font name="Calibri Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="XNRT_ten" layoutX="62.0" layoutY="34.0" prefHeight="17.0" prefWidth="217.0" text="NGUYEN TRAN TIEN TUNG">
+                           <font>
+                              <Font name="Berlin Sans FB" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="XNRT_SoTaiKhoan" layoutX="62.0" layoutY="52.0" text="0966365009">
+                           <font>
+                              <Font name="Arial" size="12.0" />
+                           </font>
+                        </Label>
+                        <Line endX="178.0" layoutX="101.0" layoutY="87.0" opacity="0.41" startX="-100.0" />
+                        <Label layoutX="11.0" layoutY="94.0" opacity="0.8" text="Số tiền cần rút">
+                           <font>
+                              <Font name="Calibri Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="XNRT_SoTienCanRut" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="11.0" layoutY="120.0" text="50,000">
+                           <font>
+                              <Font name="Comic Sans MS Bold" size="16.0" />
+                           </font>
+                           <graphic>
+                              <Label alignment="CENTER_RIGHT" text="VND">
+                                 <font>
+                                    <Font name="Comic Sans MS Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                           </graphic>
+                        </Label>
+                        <Label fx:id="XNRT_SoTienChu" layoutX="11.0" layoutY="148.0" opacity="0.8" prefHeight="17.0" prefWidth="268.0" text="11 triệu 9 trăm 36 nghìn Việt Nam Đồng" />
+                        <Line endX="178.00003051757812" layoutX="100.0" layoutY="182.0" opacity="0.41" startX="-100.0" />
+                        <Label layoutX="11.0" layoutY="196.0" opacity="0.7" text="Phí dao dịch" />
+                        <Label layoutX="11.0" layoutY="220.0" opacity="0.7" text="Tổng" />
+                        <Label layoutX="233.0" layoutY="196.0" text="0 VND">
+                           <font>
+                              <Font name="Calibri" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="XNRT_SoTienTong" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="162.0" layoutY="221.0" prefHeight="15.0" prefWidth="106.0" text="10,000,000">
+                           <graphic>
+                              <Label text="VND">
+                                 <font>
+                                    <Font name="Calibri" size="13.0" />
+                                 </font>
+                              </Label>
+                           </graphic>
+                           <font>
+                              <Font name="Calibri" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="11.0" layoutY="244.0" opacity="0.7" text="Điện thoại người nhận" />
+                        <Label fx:id="XNRT_SoTaiKhoan2" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="162.0" layoutY="245.0" prefHeight="15.0" prefWidth="106.0" text="0966365009">
+                           <font>
+                              <Font name="Calibri" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Button fx:id="XNRT_XacNhan" layoutX="44.0" layoutY="517.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="251.0" styleClass="XacNhan" stylesheets="@../../../Css/rutTien.css" text="Xác nhận" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="pin_Otp_2" prefHeight="564.0" prefWidth="340.0" style="-fx-background-color: #ffffff;" visible="false">
+               <children>
+                  <Pane prefHeight="51.0" prefWidth="340.0" style="-fx-background-color: #F6DCAC;">
+                     <children>
+                        <Button fx:id="Move_back_10" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="4.0" layoutY="11.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="31.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
+                           <graphic>
+                              <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Picture/left-arrow-1.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="141.0" layoutY="15.0" text="Rút tiền" textFill="#7d652c">
+                           <font>
+                              <Font name="Calibri Bold" size="17.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Label layoutX="44.0" layoutY="125.0" prefHeight="39.0" prefWidth="251.0" text="Vui lòng nhập mã PIN OTP của bạn để  thực hiện giao dịch này" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font name="Arial" size="14.0" />
                      </font>
                   </Label>
-                  <PasswordField alignment="CENTER" layoutX="84.0" layoutY="198.0" prefHeight="25.0" prefWidth="171.0">
+                  <PasswordField fx:id="rt_MaPin" alignment="CENTER" layoutX="84.0" layoutY="198.0" prefHeight="25.0" prefWidth="171.0" promptText="PIN của bạn">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Consolas" size="14.0" />
                      </font>
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color red="0.6666666865348816" green="0.6666666865348816" blue="0.6666666865348816" />
+                           </color>
+                        </DropShadow>
+                     </effect>
                   </PasswordField>
                   <Pane layoutY="319.0" prefHeight="59.0" prefWidth="340.0" style="-fx-background-color: #ffffff;">
                      <children>
-                        <Button layoutX="16.0" layoutY="13.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="304.0" styleClass="send" stylesheets="@../../../Css/User_Infor.css" text="Lấy mã OTP" textFill="WHITE">
+                        <Button fx:id="rt_xacThucMaPin" layoutX="16.0" layoutY="13.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="304.0" styleClass="send" stylesheets="@../../../Css/User_Infor.css" text="Xác thực" textFill="WHITE">
                            <font>
                               <Font name="Calibri Bold" size="14.0" />
                            </font>
+                           <effect>
+                              <DropShadow>
+                                 <color>
+                                    <Color red="0.7105262875556946" green="0.7105262875556946" blue="0.7105262875556946" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
                         </Button>
                      </children>
                   </Pane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="ChuyenTienThanhCong1" prefHeight="564.0" prefWidth="340.0" visible="false">
+               <children>
+                  <ImageView fitHeight="204.0" fitWidth="340.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../Picture/8a258ca1dac8974bdeba4484b8d81d2a.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="151.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Picture/check.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" layoutY="73.0" prefHeight="17.0" prefWidth="340.0" text="Bạn đã rút tiền thành công" textFill="#ac0064">
+                     <font>
+                        <Font name="Candara Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="Tien_Xac_Nhan1" alignment="CENTER" contentDisplay="RIGHT" layoutX="-1.0" layoutY="101.0" prefHeight="37.0" prefWidth="340.0" text="10000000" textAlignment="CENTER" textFill="#c2e0ff">
+                     <font>
+                        <Font name="Calibri Bold" size="32.0" />
+                     </font>
+                     <graphic>
+                        <Label alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="63.0" text="VND" textAlignment="RIGHT" textFill="#c2e0ff">
+                           <font>
+                              <Font name="Calibri Bold" size="32.0" />
+                           </font>
+                        </Label>
+                     </graphic>
+                  </Label>
+                  <Pane layoutX="15.0" layoutY="162.0" prefHeight="81.0" prefWidth="310.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10px;">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color red="0.43921568989753723" green="0.43529412150382996" blue="0.43529412150382996" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <children>
+                        <Label layoutX="6.0" layoutY="6.0" text="Tài khoản nguồn" textFill="#7d7d7d">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="TenNguoiNhanTien1" layoutX="46.0" layoutY="30.0" prefHeight="17.0" text="NGUYEN THANH TIEN TUNG">
+                           <font>
+                              <Font name="Berlin Sans FB" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="SDT_Nguoi_Nhan1" layoutX="46.0" layoutY="50.0" text="0914084362">
+                           <font>
+                              <Font name="Arial" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="15.0" layoutY="259.0" prefHeight="144.0" prefWidth="310.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10px;">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color red="0.43921568989753723" green="0.43529412150382996" blue="0.43529412150382996" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <children>
+                        <Label layoutX="10.0" layoutY="113.0" text="Thời gian" textFill="#808080">
+                           <font>
+                              <Font name="Calibri" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="ThoiGian1" layoutX="206.0" layoutY="113.0" text="19:57 , 08/06/2024">
+                           <font>
+                              <Font name="Calibri" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="11.0" layoutY="11.0" text="Mã giao dịch" textFill="#808080">
+                           <font>
+                              <Font name="Calibri" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="ThoiGian11" layoutX="251.0" layoutY="14.0" text="18745643">
+                           <font>
+                              <Font name="Calibri" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Button layoutX="15.0" layoutY="490.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="141.0" styleClass="ManHinhChinh" stylesheets="@../../../Css/User_Infor.css" text="Màn hình chính" textFill="#3572ef">
+                     <font>
+                        <Font name="Arial Bold" size="11.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="183.0" layoutY="490.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="141.0" styleClass="GiaoDichMoi" stylesheets="@../../../Css/User_Infor.css" text="Giao dịch mới" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Bold" size="11.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="NapTienDienThoai" layoutX="171.0" layoutY="105.0" prefHeight="564.0" prefWidth="340.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Pane prefHeight="51.0" prefWidth="340.0" style="-fx-background-color: #F6DCAC;">
+                     <children>
+                        <Button fx:id="Move_back_11" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="4.0" layoutY="11.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="31.0" styleClass="Home" stylesheets="@../../../Css/User_Infor.css">
+                           <graphic>
+                              <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Picture/left-arrow-1.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="101.0" layoutY="15.0" text="Nạp tiền điện thoại" textFill="#7d652c">
+                           <font>
+                              <Font name="Calibri Bold" size="17.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color red="0.38596490025520325" green="0.38596490025520325" blue="0.38596490025520325" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </Pane>
+                  <Label layoutX="10.0" layoutY="71.0" text="Thông tin thanh toán">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="NTDT_sdt_text" layoutX="12.0" layoutY="100.0" prefHeight="37.0" prefWidth="315.0" promptText="Số điện thoại" style="-fx-border-color: #9B86BD; -fx-border-radius: 4px;">
+                     <effect>
+                        <DropShadow height="10.0" radius="4.5" width="10.0">
+                           <color>
+                              <Color red="0.15345463156700134" green="0.6216879487037659" blue="0.9561403393745422" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <font>
+                        <Font name="Cambria Bold" size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="12.0" />
+                     </padding></TextField>
+                  <Button fx:id="NTDT_SDT_CuaBanThan" layoutX="107.0" layoutY="147.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="126.0" styleClass="SDT" stylesheets="@../../../Css/Naptien.css" text="0966365009">
+                     <font>
+                        <Font name="Agency FB Bold" size="12.0" />
+                     </font></Button>
+                  <Label layoutX="14.0" layoutY="181.0" text="Chọn mệnh giá">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Button alignment="CENTER" layoutX="17.0" layoutY="217.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="87.0" style="-fx-background-color: white; -fx-border-color: #5A72A0; -fx-background-radius: 4px; -fx-border-radius: 4px;">
+                     <font>
+                        <Font name="Berlin Sans FB" size="13.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="1.0" radius="0.0" width="0.0" />
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <Pane prefHeight="48.0" prefWidth="67.0">
+                           <children>
+                              <Label layoutX="9.0" layoutY="9.0" text="500,000" textFill="#9b86bd">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="22.0" layoutY="26.0" opacity="0.8" text="VND">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="127.0" layoutY="217.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="87.0" style="-fx-background-color: white; -fx-border-color: #5A72A0; -fx-background-radius: 4px; -fx-border-radius: 4px;">
+                     <font>
+                        <Font name="Berlin Sans FB" size="13.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="1.0" radius="0.0" width="0.0" />
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <Pane prefHeight="60.0" prefWidth="87.0">
+                           <children>
+                              <Label layoutX="9.0" layoutY="9.0" text="300,000" textFill="#9b86bd">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="22.0" layoutY="26.0" opacity="0.8" text="VND">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="237.0" layoutY="217.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="87.0" style="-fx-background-color: white; -fx-border-color: #5A72A0; -fx-background-radius: 4px; -fx-border-radius: 4px;">
+                     <font>
+                        <Font name="Berlin Sans FB" size="13.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="1.0" radius="0.0" width="0.0" />
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <Pane prefHeight="48.0" prefWidth="67.0">
+                           <children>
+                              <Label layoutX="8.0" layoutY="9.0" text="200,000" textFill="#9b86bd">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="23.0" layoutY="26.0" opacity="0.8" text="VND">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="17.0" layoutY="293.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="87.0" style="-fx-background-color: white; -fx-border-color: #5A72A0; -fx-background-radius: 4px; -fx-border-radius: 4px;">
+                     <font>
+                        <Font name="Berlin Sans FB" size="13.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="1.0" radius="0.0" width="0.0" />
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <Pane prefHeight="48.0" prefWidth="67.0">
+                           <children>
+                              <Label layoutX="9.0" layoutY="8.0" text="100,000" textFill="#219c90">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="21.0" layoutY="25.0" opacity="0.8" text="VND">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="127.0" layoutY="293.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="87.0" style="-fx-background-color: white; -fx-border-color: #5A72A0; -fx-background-radius: 4px; -fx-border-radius: 4px;">
+                     <font>
+                        <Font name="Berlin Sans FB" size="13.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="1.0" radius="0.0" width="0.0" />
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <Pane prefHeight="48.0" prefWidth="67.0">
+                           <children>
+                              <Label layoutX="13.0" layoutY="8.0" text="50,000" textFill="#219c90">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="23.0" layoutY="25.0" opacity="0.8" text="VND">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="237.0" layoutY="293.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="87.0" style="-fx-background-color: white; -fx-border-color: #5A72A0; -fx-background-radius: 4px; -fx-border-radius: 4px;">
+                     <font>
+                        <Font name="Berlin Sans FB" size="13.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="1.0" radius="0.0" width="0.0" />
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <Pane prefHeight="48.0" prefWidth="67.0">
+                           <children>
+                              <Label layoutX="12.0" layoutY="7.0" text="30,000" textFill="#219c90">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="23.0" layoutY="25.0" opacity="0.8" text="VND">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="17.0" layoutY="369.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="87.0" style="-fx-background-color: white; -fx-border-color: #5A72A0; -fx-background-radius: 4px; -fx-border-radius: 4px;">
+                     <font>
+                        <Font name="Berlin Sans FB" size="13.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="1.0" radius="0.0" width="0.0" />
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <Pane prefHeight="48.0" prefWidth="67.0">
+                           <children>
+                              <Label layoutX="12.0" layoutY="8.0" text="20,000" textFill="#9a9000">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="22.0" layoutY="25.0" opacity="0.8" text="VND">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="127.0" layoutY="369.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="87.0" style="-fx-background-color: white; -fx-border-color: #5A72A0; -fx-background-radius: 4px; -fx-border-radius: 4px;">
+                     <font>
+                        <Font name="Berlin Sans FB" size="13.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="1.0" radius="0.0" width="0.0" />
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <Pane prefHeight="48.0" prefWidth="67.0">
+                           <children>
+                              <Label layoutX="13.0" layoutY="8.0" text="10,000" textFill="#9a9000">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="22.0" layoutY="25.0" opacity="0.8" text="VND">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="NTDT_button" layoutX="19.0" layoutY="517.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="304.0" styleClass="XacNhan" stylesheets="@../../../Css/Naptien.css" text="Nạp tiền">
+                     <font>
+                        <Font name="Arial Bold" size="13.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
          </children>

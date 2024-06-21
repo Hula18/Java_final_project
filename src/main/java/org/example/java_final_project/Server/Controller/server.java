@@ -59,6 +59,10 @@ public class server {
                     System.out.println("người dùng đăng nhập");
                     serverThread.DangNhap();
                 }
+                case Request.Lay_Du_Lieu ->{
+                    System.out.println("Người dùng lấy dữ liệu");
+                    serverThread.LayDuLieu();
+                }
                 case Request.SIGNUP -> {
                     System.out.println("người dùng đăng ký");
                     serverThread.DangKy();
@@ -74,6 +78,22 @@ public class server {
                 case Request.ChangePassword -> {
                     System.out.println("Người dùng đổi mật khẩu");
                     serverThread.ThayDoiMatKhau();
+                }
+                case Request.ChangeMaPin -> {
+                    System.out.println("Người dùng đổi mã PIN");
+                    serverThread.DoiMaPIN();
+                }
+                case Request.Check_Ma_PIN -> {
+                    System.out.println("Người dùng kiểm tra mã PIN");
+                    serverThread.XacThuc();
+                }
+                case Request.CTien -> {
+                    System.out.println("Người dùng chuyển tiền");
+                    serverThread.ChuyenTien();
+                }
+                case Request.Auto_Update_Balance -> {
+                    System.out.println("Kiểm tra thay đổi");
+                    serverThread.DoiBalance();
                 }
             }
         }catch (Exception e){

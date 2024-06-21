@@ -14,15 +14,17 @@ import javafx.stage.Stage;
 import org.example.java_final_project.Client.Controller.Bank.ScreenController;
 import org.example.java_final_project.Client.Controller.Handle.ClientCore;
 import org.example.java_final_project.Client.Controller.Interface.LoginCallBack;
+import org.example.java_final_project.Client.Controller.Interface.Screen_Interface;
 import org.example.java_final_project.Main;
 import org.example.java_final_project.Model.Request;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class User_loginController implements Initializable,LoginCallBack {
+public class User_loginController implements Initializable,LoginCallBack, Screen_Interface {
 
     /*Text Filed*/
     @FXML
@@ -131,7 +133,7 @@ public class User_loginController implements Initializable,LoginCallBack {
         String password = pass.getText();
         String request = Request.LOGIN;
 
-        new ClientCore(SDT, password, request, this);
+        new ClientCore(SDT, password, request, (LoginCallBack) this);
     }
     private void changeScene() {
        Runnable scene = new Runnable() {
@@ -154,7 +156,7 @@ public class User_loginController implements Initializable,LoginCallBack {
        };
        new Thread(scene).start();
     }
-    private void changeToMainScene() {
+    private void changeToMainScene(String fullName , BigDecimal balance) {
         Platform.runLater(() -> {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("MainScreen.fxml"));
@@ -162,6 +164,9 @@ public class User_loginController implements Initializable,LoginCallBack {
                 ScreenController screenController = fxmlLoader.getController();
                 screenController.setPrevStage(prevStage);
                 screenController.setUserID(SDT_text.getText());
+                screenController.setUserName(fullName);
+                screenController.setBalance(balance); ;
+
 
                 Scene scene2 = new Scene(root, 338, 564);
                 prevStage.setScene(scene2);
@@ -177,7 +182,8 @@ public class User_loginController implements Initializable,LoginCallBack {
     public void onLoginSuccess() {
         information.setText("");
         setUser_ID(SDT_text.getText());
-        changeToMainScene();
+        String request = Request.Lay_Du_Lieu;
+        new ClientCore(SDT_text.getText(),request ,(Screen_Interface) this) ;
     }
     @Override
     public void onLoginFailure(String message) {
@@ -207,6 +213,64 @@ public class User_loginController implements Initializable,LoginCallBack {
 
     @Override
     public void GetUseNameFail() {
+
+    }
+
+    @Override
+    public void Change_Pin_Success() {
+
+    }
+
+    @Override
+    public void Chang_Pin_failed() {
+
+    }
+
+    @Override
+    public void UserIsAlreadyUsing() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION) ;
+        alert.setHeaderText(null);
+        alert.setContentText("Tài khoản đang có người sử dụng vui lòng kiểm tra lại");
+        alert.showAndWait();
+    }
+
+    @Override
+    public void Check_Last_Password(String message) {
+
+    }
+
+    @Override
+    public void Change_Password_Success() {
+
+    }
+
+    @Override
+    public void Xac_Thuc_True() {
+
+    }
+
+    @Override
+    public void Xac_Thuc_False() {
+
+    }
+
+    @Override
+    public void Chuyen_Tien_Thanh_Cong() {
+
+    }
+
+    @Override
+    public void Chuyen_Tien_Khong_Thanh_Cong() {
+
+    }
+
+    @Override
+    public void Lay_Du_Lieu_Thanh_Cong(String fullName, BigDecimal balance) {
+        changeToMainScene(fullName,balance);
+    }
+
+    @Override
+    public void UpdateBalance(BigDecimal balance) {
 
     }
 }

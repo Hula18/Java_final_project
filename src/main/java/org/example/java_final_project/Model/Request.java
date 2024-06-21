@@ -21,6 +21,19 @@ public class Request {
     public static final String ChangePassword = "<Change-password>" ;
     public static final String ChangePassSuccess = "<Change-pass-success>";
     public static final String LastPasswordFail = "<Failure-last-password>";
-
-
+    public static final String ChangeMaPin = "<Change-MaPin>";
+    public static final String ChangeSuccessPin = "<Change-MaPin-Success>";
+    public static final String ChangeFailedPin ="<Change-MaPin-Failed>";
+    public static final String UserAlreadyLoggedIn = "<Already-have-user>";
+    public static final String Check_Ma_PIN = "<Check_Ma_PIN>" ;
+    public static final String Ma_PIN_Success = "<PIN_success>";
+    public static final String Ma_PIN_Fail = "<PIN_Fail>" ;
+    public static final String CTien = "<CTien>";
+    public static final String CTien_Thanh_Cong = "<CTien_ThanhCong>" ;
+    public static final String CTien_ThatBai = "<CTien_ThatBai>" ;
+    public static final String Lay_Du_Lieu = "<Du_Lieu_Nguoi_Dung>" ;
+    public static final String Lay_Du_Lieu_Thanh_Cong = "<Lay_Du_Lieu_Nguoi_Dung_Thanh_Cong>" ;
+    public static final String Lay_Du_Lieu_That_Bai = "<Lay_Du_Lieu_Nguoi_Dung_That_Bai>";
+    public static final String Auto_Update_Balance = "<Update_Balance>" ;
+    public static final String Update_Balance_Success = "<Update_Balance-Success>" ;
 }

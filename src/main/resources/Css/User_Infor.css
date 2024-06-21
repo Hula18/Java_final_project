@@ -50,3 +50,24 @@
     -fx-border-width: 2;
     -fx-border-radius: 3;
 }
+.ManHinhChinh{
+    -fx-border-color: #3572EF;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-background-color: #ffffff;
+    -fx-border-width: 2px;
+}
+.ManHinhChinh:hover{
+    -fx-opacity: 0.5;
+}
+
+.GiaoDichMoi{
+    -fx-background-color:#3572EF;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px ;
+    -fx-border-width: 2px;
+    -fx-border-color: #3572EF;
+}
+.GiaoDichMoi:hover{
+    -fx-opacity: 0.6;
+}

@@ -8,4 +8,7 @@ public interface LoginCallBack {
     void logOutSuccess();
     void GetUserNameSuccess(String accountName);
     void GetUseNameFail() ;
+    void Change_Pin_Success();
+    void Chang_Pin_failed();
+    void UserIsAlreadyUsing() ;
 }
