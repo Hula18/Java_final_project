@@ -191,7 +191,16 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
     @FXML private TextField NTDT_sdt_text;
     @FXML private Button NTDT_button ;
 
-/*-----------------------------------------------------------*/
+    @FXML private Label NTDT_Gia_1;@FXML private Label NTDT_Gia_2;@FXML private Label NTDT_Gia_3;@FXML private Label NTDT_Gia_4;@FXML private Label NTDT_Gia_5;@FXML private Label NTDT_Gia_6;@FXML private Label NTDT_Gia_7;@FXML private Label NTDT_Gia_8;
+
+    private Button lastButton ;private String SelectValue ; private String defaultStyle_button ;
+    private String defaultStyle_1 ; private String defaultStyle_2 ;private String defaultStyle_3;
+    private String defaultStyle_1_1 = "-fx-text-fill:#5a4186;";
+    private String defaultStyle_chu_chung = "-fx-text-fill:black; -fx-opacity:0.8;" ;
+    private String defaulStyle_2_1 = "-fx-text-fill:#08887c;" ;
+    private String defaultStyle_3_1 = "-fx-text-fill:#9a9000;" ;
+
+    /*-----------------------------------------------------------*/
     private boolean isExpanded = false;
     private boolean isChange1 = false;private boolean isChange2 = false;private boolean isChange3 = false;private boolean isChange4 = false;
     private boolean isChange5 = false;private boolean isChange6 = false;private boolean isChange7 = false;private boolean isChange8 = false;
@@ -224,18 +233,12 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
         rt_rutTien_name_1.setText(userName);
         loi_nhan.setText(userName + " chuyen khoan ");
     }
-
     public void setBalance(BigDecimal bigDecimal) {
         this.userBalance = bigDecimal;
         Money1.setText(ConvertBalance(bigDecimal));
         Money2.setText(ConvertBalance(bigDecimal));
         rt_SoTien.setText(ConvertBalance(bigDecimal));
     }
-
-    public Stage getPrevStage() {
-        return prevStage;
-    }
-
     public void setPrevStage(Stage prevStage) {
         this.prevStage = prevStage;
     }
@@ -444,7 +447,7 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
                     Change_pass_continue.setDisable(false);
                     xntt_SDT_TaiKhoanToi.setText(soTaiKhoan);
                     xntt_TaiKhoanToi.setText(tenTaiKhoan);
-                    SoTienBangChu_1.setText((convertNumberToWords(enteredMoney) + " Việt Nam Đồng").substring(0, 1).toUpperCase() + (convertNumberToWords(enteredMoney) + " Việt Nam Đồng").substring(1));
+                    SoTienBangChu_1.setText((convertNumberToWords(enteredMoney) + " Đồng").substring(0, 1).toUpperCase() + (convertNumberToWords(enteredMoney) + " Việt Nam Đồng").substring(1));
                     NoiDungChuyenKhoan.setText(loiNhan);
                     BigDecimal tien = new BigDecimal(So_Tien.getText());
                     soTienChuyen.setText(ConvertBalance(tien));
@@ -1022,9 +1025,6 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
         CheckFields();
 
         defaultStyle_button = "-fx-background-color:white;-fx-border-color: #5A72A0;-fx-background-radius:4px;-fx-border-radius:4px";
-        defaultStyle_1 = "" ;
-        defaultStyle_2 = "" ;
-        defaultStyle_3 = "" ;
     }
 
     private void setButtonActionS() {
@@ -1223,9 +1223,6 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
     }
 
     private void SetTextProperty() {
-        password_2.textProperty().addListener((observable, oldValue, newValue) -> {
-            Check(newValue);
-        });
         password_2.focusedProperty().addListener((observable, oldValue, newValue) -> {
             TranslateTransition transition = new TranslateTransition(Duration.millis(200), password_3);
             TranslateTransition transition1 = new TranslateTransition(Duration.millis(200), close_eye_3);
@@ -1253,18 +1250,11 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
                 CheckFields();
             }
         });
-        So_Tai_Khoan.textProperty().addListener((observable, oldValue, newValue) -> {
-            Check_changeMoney_Empty();
-        });
-        Ten_Tai_Khoan.textProperty().addListener((observable, oldValue, newValue) -> {
-            Check_changeMoney_Empty();
-        });
-        So_Tien.textProperty().addListener((observable, oldValue, newValue) -> {
-            Check_changeMoney_Empty();
-        });
-        loi_nhan.textProperty().addListener((observable, oldValue, newValue) -> {
-            Check_changeMoney_Empty();
-        });
+        password_2.textProperty().addListener((observable, oldValue, newValue) -> {Check(newValue);});
+        So_Tai_Khoan.textProperty().addListener((observable, oldValue, newValue) -> {Check_changeMoney_Empty();});
+        Ten_Tai_Khoan.textProperty().addListener((observable, oldValue, newValue) -> {Check_changeMoney_Empty();});
+        So_Tien.textProperty().addListener((observable, oldValue, newValue) -> {Check_changeMoney_Empty();});
+        loi_nhan.textProperty().addListener((observable, oldValue, newValue) -> {Check_changeMoney_Empty();});
     }
 
     private void ThanhCong() {
@@ -1408,10 +1398,6 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
     }
 
     // -----------------------------------------------------------------------------------------------------------
-    /*-----------------------------Nạp tiền--------------------------------------*/
-    private Button lastButton ;private String SelectValue ; private String defaultStyle_button ;
-    private String defaultStyle_1 ; private String defaultStyle_2 ;private String defaultStyle_3;
-
 
     /*--------------------------Nạp tiền số điện thoại -------------------------*/
     private void initialNTSDT(){
@@ -1425,22 +1411,19 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
                 NTDT_sdt_text.setText(userID);
             }
         });
-        NTDT_button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                new Thread(() -> {
-                    checkSDT();
-                }).start();
+        NTDT_sdt_text.textProperty().addListener((observable, oldValue, newValue) -> {
+            String sdt = newValue ;
+            if(sdt.isEmpty()){
+                NTDT_button.setDisable(true);
+            }else{
+                NTDT_button.setDisable(false);
             }
         });
     }
     private boolean checkSDT(){
-        String sdt = NTDT_sdt_text.getText() ;
-        if(sdt.isEmpty()){
-            return true ;
-        }
-        return false ;
+       return false ;
     }
+
 
     /*-------------------------------------------------------------------------------*/
     private void setthoiGianChuyen(String thoiGian) {
