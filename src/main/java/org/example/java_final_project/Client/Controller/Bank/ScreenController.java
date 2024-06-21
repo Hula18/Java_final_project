@@ -804,44 +804,31 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
         }, 1100);
     }
 
-    @FXML
-    void HidePasswordOnAction_1(KeyEvent event) {
+    @FXML void HidePasswordOnAction_1(KeyEvent event) {
         Password1 = password_1.getText();
         pass_text_1.setText(Password1);
     }
-
-    @FXML
-    void HidePasswordOnAction_2(KeyEvent event) {
+    @FXML void HidePasswordOnAction_2(KeyEvent event) {
         Password2 = password_2.getText();
         pass_text_2.setText(Password2);
     }
-
-    @FXML
-    void HidePasswordOnAction_3(KeyEvent event) {
+    @FXML void HidePasswordOnAction_3(KeyEvent event) {
         Password3 = password_3.getText();
         pass_text_3.setText(Password3);
     }
-
-    @FXML
-    void ShowPasswordOnAction_1(KeyEvent event) {
+    @FXML void ShowPasswordOnAction_1(KeyEvent event) {
         Password1 = pass_text_1.getText();
         password_1.setText(Password1);
     }
-
-    @FXML
-    void ShowPasswordOnAction_2(KeyEvent event) {
+    @FXML void ShowPasswordOnAction_2(KeyEvent event) {
         Password2 = pass_text_2.getText();
         password_2.setText(Password2);
     }
-
-    @FXML
-    void ShowPasswordOnAction_3(KeyEvent event) {
+    @FXML void ShowPasswordOnAction_3(KeyEvent event) {
         Password3 = pass_text_3.getText();
         password_3.setText(Password3);
     }
-
-    @FXML
-    void Close_Eye_ClickOnAction_1(MouseEvent event) {
+    @FXML void Close_Eye_ClickOnAction_1(MouseEvent event) {
         open_eye_1.setVisible(true);
         pass_text_1.setVisible(true);
         password_1.setVisible(false);
@@ -854,9 +841,7 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
             }
         }, 1000);
     }
-
-    @FXML
-    void Close_Eye_ClickOnAction_2(MouseEvent event) {
+    @FXML void Close_Eye_ClickOnAction_2(MouseEvent event) {
         open_eye_2.setVisible(true);
         pass_text_2.setVisible(true);
         password_2.setVisible(false);
@@ -869,9 +854,7 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
             }
         }, 1000);
     }
-
-    @FXML
-    void Close_Eye_ClickOnAction_3(MouseEvent event) {
+    @FXML void Close_Eye_ClickOnAction_3(MouseEvent event) {
         open_eye_3.setVisible(true);
         pass_text_3.setVisible(true);
         password_3.setVisible(false);
@@ -884,25 +867,19 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
             }
         }, 1000);
     }
-
-    @FXML
-    void Open_Eye_ClickOnAction_1(MouseEvent event) {
+    @FXML void Open_Eye_ClickOnAction_1(MouseEvent event) {
         open_eye_1.setVisible(false);
         pass_text_1.setVisible(false);
         password_1.setVisible(true);
         close_eye_1.setVisible(true);
     }
-
-    @FXML
-    void Open_Eye_ClickOnAction_2(MouseEvent event) {
+    @FXML void Open_Eye_ClickOnAction_2(MouseEvent event) {
         open_eye_2.setVisible(false);
         pass_text_2.setVisible(false);
         password_2.setVisible(true);
         close_eye_2.setVisible(true);
     }
-
-    @FXML
-    void Open_Eye_ClickOnAction_3(MouseEvent event) {
+    @FXML void Open_Eye_ClickOnAction_3(MouseEvent event) {
         open_eye_3.setVisible(false);
         pass_text_3.setVisible(false);
         password_3.setVisible(true);
