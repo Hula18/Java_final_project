@@ -25,6 +25,7 @@ import org.example.java_final_project.Main;
 import org.example.java_final_project.Model.Request;
 
 import java.math.BigDecimal;
+import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.sql.Time;
 import java.text.DecimalFormat;
@@ -35,6 +36,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,6 +57,9 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
     @FXML private AnchorPane ChuyenTienThanhCong;
     @FXML private AnchorPane RutTien_screen_1;
     @FXML private AnchorPane pin_Otp_2;
+    @FXML private AnchorPane NTDT_TaiKhoanNguon ;
+    @FXML private AnchorPane RutTienThanhCong;
+    @FXML private AnchorPane pin_Otp_3 ;
 
     @FXML private Label CT_ThongBao;
     @FXML private Label Money1;
@@ -68,6 +73,7 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
     @FXML private Label user_name_2;
     @FXML private Label pass_check;
     @FXML private Label soTienChuyen;
+    @FXML private Label NTDT_thongBao ;
 
     @FXML private Button user_Home;
     @FXML private Button dangXuat;
@@ -99,6 +105,7 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
     @FXML private Button Home_9;
     @FXML private Button Home_10;
     @FXML private Button NapDienThoai_button;
+    @FXML private Button Move_back_12 ;
 
     @FXML private ImageView close_eye_1;
     @FXML private ImageView close_eye_2;
@@ -127,6 +134,7 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
     @FXML private PasswordField MaPinCu;
     @FXML private PasswordField MaPinMoi;
     @FXML private Button ChangePinOTP;
+    @FXML private PasswordField NTDT_MaPin;
 
     // Chuyển tiền
     @FXML private TextField So_Tai_Khoan;
@@ -172,7 +180,8 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
     @FXML private Label rt_checkInformation;
     private Button lastClickedButton;
     private String selectedValue;
-    private String defaultStyle;
+    private String defaultStyle = "-fx-background-color: #ffffff;-fx-border-color: #000000 ; -fx-background-radius: 4px; -fx-border-radius:4px;";
+    private Button lastButton ;private String SelectValue ;private String defaultStyle_2 = "-fx-background-color: #f0f0f0; -fx-background-radius: 6px;";
 
     // Xác nhận rút tiền
     @FXML private AnchorPane XNRT;
@@ -186,25 +195,35 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
 
     // Nạp tiền điện thoại
     @FXML private AnchorPane NapTienDienThoai ;
+    @FXML private AnchorPane NapTienThanhCong ;
     @FXML private Button Move_back_11;
     @FXML private Button NTDT_SDT_CuaBanThan;
     @FXML private TextField NTDT_sdt_text;
     @FXML private Button NTDT_button ;
+    @FXML private Label NTDT_SoTaiKhoan;
+    @FXML private Label NTDT_SoTien;
 
-    @FXML private Label NTDT_Gia_1;@FXML private Label NTDT_Gia_2;@FXML private Label NTDT_Gia_3;@FXML private Label NTDT_Gia_4;@FXML private Label NTDT_Gia_5;@FXML private Label NTDT_Gia_6;@FXML private Label NTDT_Gia_7;@FXML private Label NTDT_Gia_8;
+    @FXML private Label NTDT_Gia_1;@FXML private Label NTDT_Gia_2;
+    @FXML private Label NTDT_Gia_3;@FXML private Label NTDT_Gia_4;
+    @FXML private Label NTDT_Gia_5;@FXML private Label NTDT_Gia_6;
+    @FXML private Button NTDT_button_10;@FXML private Button NTDT_button_100;
+    @FXML private Button NTDT_button_20;@FXML private Button NTDT_button_200;
+    @FXML private Button NTDT_button_50;@FXML private Button NTDT_button_500;
 
-    private Button lastButton ;private String SelectValue ; private String defaultStyle_button ;
-    private String defaultStyle_1 ; private String defaultStyle_2 ;private String defaultStyle_3;
-    private String defaultStyle_1_1 = "-fx-text-fill:#5a4186;";
-    private String defaultStyle_chu_chung = "-fx-text-fill:black; -fx-opacity:0.8;" ;
-    private String defaulStyle_2_1 = "-fx-text-fill:#08887c;" ;
-    private String defaultStyle_3_1 = "-fx-text-fill:#9a9000;" ;
+    @FXML private Button NTDT_XacThuc ;
+
+    @FXML private Label NTDT_VND_1;@FXML private Label NTDT_VND_2;
+    @FXML private Label NTDT_VND_3;@FXML private Label NTDT_VND_4;
+    @FXML private Label NTDT_VND_5;@FXML private Label NTDT_VND_6;
+    @FXML private Label NTDT_thongBao1;
+
+    private String defaultStyle_NTDT_tien_money = "-fx-text-fill: #545454" ;
 
     /*-----------------------------------------------------------*/
     private boolean isExpanded = false;
     private boolean isChange1 = false;private boolean isChange2 = false;private boolean isChange3 = false;private boolean isChange4 = false;
     private boolean isChange5 = false;private boolean isChange6 = false;private boolean isChange7 = false;private boolean isChange8 = false;
-    private boolean isChange9 = false ;private boolean isChange10 = false;private boolean isChange11 = false ;
+    private boolean isChange9 = false ;private boolean isChange10 = false;private boolean isChange11 = false ;private boolean isChange12 = false ;
     private Stage prevStage;
     private String Password1;private String Password2;private String Password3;
     private LoginCallBack loginCallBack;
@@ -212,6 +231,8 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
     private String userName;
     private BigDecimal userBalance;
     private String thoiGian;
+    private boolean kiemTraSoDienThoai = false ;
+    private boolean kiemTraSoTienNap = false ;
 
     public String getUserID() {
         return userID;
@@ -222,22 +243,24 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
         SDT1.setText(userID);
         user_SDT_1.setText(userID);
         user_SDT_2.setText(userID);
-        rt_SoTaiKhoan.setText(userID + " - ");
+        rt_SoTaiKhoan.setText(userID);
         NTDT_SDT_CuaBanThan.setText(userID);
+        NTDT_SoTaiKhoan.setText(userID);
     }
     public void setUserName(String userName) {
         this.userName = userName;
-        user_name_1.setText(userName);
-        user_name_2.setText(userName);
-        Name_user.setText(userName);
-        rt_rutTien_name_1.setText(userName);
-        loi_nhan.setText(userName + " chuyen khoan ");
+        user_name_1.setText(userName.toUpperCase());
+        user_name_2.setText(userName.toUpperCase());
+        Name_user.setText(userName.toUpperCase());
+        rt_rutTien_name_1.setText(userName.toUpperCase());
+        loi_nhan.setText(userName.toUpperCase() + " chuyen khoan ");
     }
     public void setBalance(BigDecimal bigDecimal) {
         this.userBalance = bigDecimal;
         Money1.setText(ConvertBalance(bigDecimal));
         Money2.setText(ConvertBalance(bigDecimal));
         rt_SoTien.setText(ConvertBalance(bigDecimal));
+        NTDT_SoTien.setText(ConvertBalance(bigDecimal));
     }
     public void setPrevStage(Stage prevStage) {
         this.prevStage = prevStage;
@@ -540,6 +563,7 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
             } else{
                 slidePaneToX(rt_screen_main_1,0);
                 slidePaneToX(XNRT,+340);
+                pin_Otp_2.setVisible(false);
             }
             isChange9 = !isChange9;
         });
@@ -569,10 +593,16 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
                             toggleButton.setVisible(false);
                         });
                     }
-                }, 50);
+                }, 20);
+                slidePane(pin_Otp_3,0);
+                slidePane(NapTienThanhCong,0);
+                pin_Otp_3.setVisible(true);
             }else{
                 slidePane(home_screen,0);
                 slidePane(NapTienDienThoai, +564);
+                slidePane(pin_Otp_3,+564);
+                slidePane(NapTienThanhCong,+564);
+                pin_Otp_3.setVisible(false);
                 time.schedule(new TimerTask() {
                     @Override
                     public void run() {
@@ -583,6 +613,20 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
                 }, 200);
             }
             isChange11 = !isChange11 ;
+        });
+    }
+    private void ManHinhDoi12(){
+        Platform.runLater(() -> {
+            if(isChange12){
+                slidePaneToX(NapTienDienThoai,-340);
+                slidePaneToX(pin_Otp_3,0);
+                NapTienThanhCong.setVisible(true);
+            }else{
+                slidePaneToX(NapTienDienThoai,0);
+                slidePaneToX(pin_Otp_3,+340);
+                NapTienThanhCong.setVisible(false);
+            }
+            isChange12 = !isChange12 ;
         });
     }
 
@@ -713,6 +757,8 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
         slidePane(home_screen,0);
         slidePane(rt_screen_main_1,+564);
         slidePane(XNRT,+564);
+        slidePane(pin_Otp_2,+564);
+        pin_Otp_2.setVisible(false);
         Timer time = new Timer();
         time.schedule(new TimerTask() {
             @Override
@@ -738,6 +784,8 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
         slidePaneToX(rt_screen_main_1,+340);
         slidePane(home_screen,0);
         slidePane(XNRT,+564);
+        slidePane(pin_Otp_2,+564);
+        pin_Otp_2.setVisible(false);
         Timer time = new Timer() ;
         time.schedule(new TimerTask() {
             @Override
@@ -804,87 +852,18 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
         }, 1100);
     }
 
-    @FXML void HidePasswordOnAction_1(KeyEvent event) {
-        Password1 = password_1.getText();
-        pass_text_1.setText(Password1);
-    }
-    @FXML void HidePasswordOnAction_2(KeyEvent event) {
-        Password2 = password_2.getText();
-        pass_text_2.setText(Password2);
-    }
-    @FXML void HidePasswordOnAction_3(KeyEvent event) {
-        Password3 = password_3.getText();
-        pass_text_3.setText(Password3);
-    }
-    @FXML void ShowPasswordOnAction_1(KeyEvent event) {
-        Password1 = pass_text_1.getText();
-        password_1.setText(Password1);
-    }
-    @FXML void ShowPasswordOnAction_2(KeyEvent event) {
-        Password2 = pass_text_2.getText();
-        password_2.setText(Password2);
-    }
-    @FXML void ShowPasswordOnAction_3(KeyEvent event) {
-        Password3 = pass_text_3.getText();
-        password_3.setText(Password3);
-    }
-    @FXML void Close_Eye_ClickOnAction_1(MouseEvent event) {
-        open_eye_1.setVisible(true);
-        pass_text_1.setVisible(true);
-        password_1.setVisible(false);
-        close_eye_1.setVisible(false);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> Open_Eye_ClickOnAction_1(null));
-            }
-        }, 1000);
-    }
-    @FXML void Close_Eye_ClickOnAction_2(MouseEvent event) {
-        open_eye_2.setVisible(true);
-        pass_text_2.setVisible(true);
-        password_2.setVisible(false);
-        close_eye_2.setVisible(false);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> Open_Eye_ClickOnAction_2(null));
-            }
-        }, 1000);
-    }
-    @FXML void Close_Eye_ClickOnAction_3(MouseEvent event) {
-        open_eye_3.setVisible(true);
-        pass_text_3.setVisible(true);
-        password_3.setVisible(false);
-        close_eye_3.setVisible(false);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> Open_Eye_ClickOnAction_3(null));
-            }
-        }, 1000);
-    }
-    @FXML void Open_Eye_ClickOnAction_1(MouseEvent event) {
-        open_eye_1.setVisible(false);
-        pass_text_1.setVisible(false);
-        password_1.setVisible(true);
-        close_eye_1.setVisible(true);
-    }
-    @FXML void Open_Eye_ClickOnAction_2(MouseEvent event) {
-        open_eye_2.setVisible(false);
-        pass_text_2.setVisible(false);
-        password_2.setVisible(true);
-        close_eye_2.setVisible(true);
-    }
-    @FXML void Open_Eye_ClickOnAction_3(MouseEvent event) {
-        open_eye_3.setVisible(false);
-        pass_text_3.setVisible(false);
-        password_3.setVisible(true);
-        close_eye_3.setVisible(true);
-    }
+    @FXML void HidePasswordOnAction_1(KeyEvent event) {Password1 = password_1.getText();pass_text_1.setText(Password1);}
+    @FXML void HidePasswordOnAction_2(KeyEvent event) {Password2 = password_2.getText();pass_text_2.setText(Password2);}
+    @FXML void HidePasswordOnAction_3(KeyEvent event) {Password3 = password_3.getText();pass_text_3.setText(Password3);}
+    @FXML void ShowPasswordOnAction_1(KeyEvent event) {Password1 = pass_text_1.getText();password_1.setText(Password1);}
+    @FXML void ShowPasswordOnAction_2(KeyEvent event) {Password2 = pass_text_2.getText();password_2.setText(Password2);}
+    @FXML void ShowPasswordOnAction_3(KeyEvent event) {Password3 = pass_text_3.getText();password_3.setText(Password3);}
+    @FXML void Close_Eye_ClickOnAction_1(MouseEvent event) {open_eye_1.setVisible(true);pass_text_1.setVisible(true);password_1.setVisible(false);close_eye_1.setVisible(false);Timer timer = new Timer();timer.schedule(new TimerTask() {@Override public void run() {Platform.runLater(() -> Open_Eye_ClickOnAction_1(null));}}, 1000);}
+    @FXML void Close_Eye_ClickOnAction_2(MouseEvent event) {open_eye_2.setVisible(true);pass_text_2.setVisible(true);password_2.setVisible(false);close_eye_2.setVisible(false);Timer timer = new Timer();timer.schedule(new TimerTask() {@Override public void run() {Platform.runLater(() -> Open_Eye_ClickOnAction_2(null));}}, 1000);}
+    @FXML void Close_Eye_ClickOnAction_3(MouseEvent event) {open_eye_3.setVisible(true);pass_text_3.setVisible(true);password_3.setVisible(false);close_eye_3.setVisible(false);Timer timer = new Timer();timer.schedule(new TimerTask() {@Override public void run() {Platform.runLater(() -> Open_Eye_ClickOnAction_3(null));}}, 1000);}
+    @FXML void Open_Eye_ClickOnAction_1(MouseEvent event) {open_eye_1.setVisible(false);pass_text_1.setVisible(false);password_1.setVisible(true);close_eye_1.setVisible(true);}
+    @FXML void Open_Eye_ClickOnAction_2(MouseEvent event) {open_eye_2.setVisible(false);pass_text_2.setVisible(false);password_2.setVisible(true);close_eye_2.setVisible(true);}
+    @FXML void Open_Eye_ClickOnAction_3(MouseEvent event) {open_eye_3.setVisible(false);pass_text_3.setVisible(false);password_3.setVisible(true);close_eye_3.setVisible(true);}
 
     public boolean Check(String password2) {
         boolean length = password2.length() < 8;
@@ -977,7 +956,13 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
         RutTien_screen_1.setVisible(true);
         pin_Otp_2.setVisible(false);
         NapTienDienThoai.setVisible(true);
+        pin_Otp_3.setVisible(false);
+        NapTienThanhCong.setVisible(false);
+        NTDT_thongBao1.setText("");
+        NTDT_thongBao.setText("");
 
+        pin_Otp_3.setTranslateY(+564);
+        pin_Otp_3.setTranslateX(+340);
         expandedView.setTranslateY(-358);
         user_pane.setTranslateY(+564);
         change_Pass_Pane.setTranslateY(+564);
@@ -999,100 +984,41 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
         pin_Otp_2.setTranslateY(+564);
         pin_Otp_2.setTranslateX(+340);
         NapTienDienThoai.setTranslateY(+564);
+        NapTienThanhCong.setTranslateY(+564);
+        NapTienThanhCong.setTranslateX(+340);
         CheckFields();
-
-        defaultStyle_button = "-fx-background-color:white;-fx-border-color: #5A72A0;-fx-background-radius:4px;-fx-border-radius:4px";
     }
 
     private void setButtonActionS() {
-        toggleButton.setOnAction(e -> {
-            AutoUpdateTheBalance();
-            new Thread(() -> handleToggle()).start();
-        });
-        toggleButtonExpanded.setOnAction(e -> {
-            new Thread(() -> handleToggle()).start();
-
-        });
-        User_Infor.setOnAction(e -> {
-            newPane();
-            user_pane.setVisible(true);
-        });
-        user_Home.setOnAction(e -> {
-            newPane();
-        });
-        dangXuat.setOnAction(e -> {
-            new Thread(() -> LogOut()).start();
-        });
-        thaydoimatkhau.setOnAction(e -> {
-            ManHinhDoi();
-        });
-        Move_back_1.setOnAction(e -> {
-            ManHinhDoi();
-        });
-        ChuyenTien_button.setOnAction(e -> {
-            AutoUpdateTheBalance();
-            ManHinhDoi2();
-            chuyen_tien_sreen1.setVisible(true);
-            pin_Otp_1.setVisible(true);
-        });
-        Move_back_2.setOnAction(e -> {
-            ManHinhDoi2();
-        });
+        toggleButton.setOnAction(e -> {AutoUpdateTheBalance();new Thread(() -> handleToggle()).start();});
+        toggleButtonExpanded.setOnAction(e -> {new Thread(() -> handleToggle()).start();});
+        User_Infor.setOnAction(e -> {newPane();user_pane.setVisible(true);});
+        user_Home.setOnAction(e -> {newPane();});
+        dangXuat.setOnAction(e -> {new Thread(() -> LogOut()).start();});
+        thaydoimatkhau.setOnAction(e -> {ManHinhDoi();});
+        Move_back_1.setOnAction(e -> {password_1.setText("");password_2.setText("");password_3.setText("");ManHinhDoi();pass_text_1.setText("");pass_text_2.setText("");pass_text_3.setText("");});
+        ChuyenTien_button.setOnAction(e -> {AutoUpdateTheBalance();ManHinhDoi2();chuyen_tien_sreen1.setVisible(true);pin_Otp_1.setVisible(true);});
+        Move_back_2.setOnAction(e -> {ManHinhDoi2();});
         Home_button_1.setOnAction(e -> {
+            password_1.setText("");password_2.setText("");password_3.setText("");
+            pass_text_1.setText("");pass_text_2.setText("");pass_text_3.setText("");
             ManHinhChinh1();
         });
-        Move_back_3.setOnAction(e -> {
-            ManHinhDoi3();
-        });
-        Change_pass_continue.setOnAction(e -> {
-            Check_changeMoney_Empty();
-            ManHinhDoi3();
-        });
-        Home_button_2.setOnAction(e -> {
-            ManHinhChinh2();
-        });
-        delete_all_balance.setOnMouseClicked(e -> {
-            So_Tien.setText("");
-        });
-        So_Tai_Khoan.setOnKeyReleased(event -> {
-            populateAccountName();
-        });
-        // Thực hiện khi người dùng nhả phím
-        Change_pass_send.setOnAction(e -> {
-            ChangsePassword();
-        });
-        confirm_changeMoney.setOnAction(e -> {
-            ManHinhDoi4();
-        });
-        Move_back_5.setOnAction(e -> {
-            ManHinhDoi4();
-        });
-        ChangePinOTP.setOnAction(e -> {
-            DoiMaPin();
-        });
-        Doi_Ma_Pin.setOnAction(e -> {
-            ManHinhDoi5();
-        });
-        Move_back_4.setOnAction(e -> {
-            ManHinhDoi5();
-        });
-        CT_chuyentien.setOnAction(e -> {
-            XacThucMaPIN();
-        });
-        Move_back_6.setOnAction(e -> {
-            ManHinhChinh4();
-            KoXem();
-        });
-        New_Chuyen_Tien.setOnAction(e -> {
-            AutoUpdateTheBalance();
-            newChuyenTien();
-        });
-        Button_RutTien.setOnAction(e -> {
-            Platform.runLater(() -> {
-                AutoUpdateTheBalance();
-                ManHinhDoi7();
-            });
-        });
+        Move_back_3.setOnAction(e -> {ManHinhDoi3();});
+        Change_pass_continue.setOnAction(e -> {Check_changeMoney_Empty();ManHinhDoi3();});
+        Home_button_2.setOnAction(e -> {ManHinhChinh2();});
+        delete_all_balance.setOnMouseClicked(e -> {So_Tien.setText("");});
+        So_Tai_Khoan.setOnKeyReleased(event -> {populateAccountName();});
+        Change_pass_send.setOnAction(e -> {ChangsePassword();});
+        confirm_changeMoney.setOnAction(e -> {ManHinhDoi4();});
+        Move_back_5.setOnAction(e -> {ManHinhDoi4();});
+        ChangePinOTP.setOnAction(e -> {DoiMaPin();});
+        Doi_Ma_Pin.setOnAction(e -> {ManHinhDoi5();});
+        Move_back_4.setOnAction(e -> {MaPinCu.setText("");MaPinMoi.setText("");ManHinhDoi5();});
+        CT_chuyentien.setOnAction(e -> {XacThucMaPIN();});
+        Move_back_6.setOnAction(e -> {ManHinhChinh4();KoXem();});
+        New_Chuyen_Tien.setOnAction(e -> {Platform.runLater(() -> {AutoUpdateTheBalance();newChuyenTien();});});
+        Button_RutTien.setOnAction(e -> {Platform.runLater(() -> {AutoUpdateTheBalance();ManHinhDoi7();});});
         Move_back_8.setOnAction(e -> {
             defaultStyle = "-fx-background-color: #ffffff;-fx-border-color: #000000 ; -fx-background-radius: 4px; -fx-border-radius:4px;";
             rt_Button_1_5tr.setStyle(defaultStyle);
@@ -1108,12 +1034,8 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
             RT_back();
             ManHinhDoi8();
         });
-        Move_back_7.setOnAction(e -> {
-            ManHinhDoi7();
-        });
-        TaoMaRutTien.setOnAction(e -> {
-            ManHinhDoi8();
-        });
+        Move_back_7.setOnAction(e -> {ManHinhDoi7();});
+        TaoMaRutTien.setOnAction(e -> {ManHinhDoi8();});
         Home_9.setOnAction(e->{
             ManHinhChinh5();
             defaultStyle = "-fx-background-color: #ffffff;-fx-border-color: #000000 ; -fx-background-radius: 4px; -fx-border-radius:4px;";
@@ -1129,15 +1051,29 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
             rt_checkInformation.setVisible(false);
             RT_back();
         });
-        Move_back_9.setOnAction(e ->{
-            ManHinhDoi9();
+        Move_back_9.setOnAction(e ->{ManHinhDoi9();});
+        XNRT_XacNhan.setOnAction(e -> {ManHinhDoi10();});
+        Move_back_10.setOnAction(e -> {ManHinhDoi10();});
+        Move_back_11.setOnAction(e->{
+            NTDT_sdt_text.setText("");
+            NTDT_thongBao1.setText("");
+            NTDT_thongBao1.setVisible(false);
+            NTDT_thongBao.setText("");
+            NTDT_thongBao.setVisible(false);
+            NTDT_button_500.setStyle(defaultStyle_2);NTDT_button_200.setStyle(defaultStyle_2);
+            NTDT_button_100.setStyle(defaultStyle_2);NTDT_button_50.setStyle(defaultStyle_2);
+            NTDT_button_20.setStyle(defaultStyle_2);NTDT_button_10.setStyle(defaultStyle_2);
+            NTDT_button.setDisable(true);
+            NTDT_Gia_1.setStyle(defaultStyle_NTDT_tien_money);NTDT_Gia_2.setStyle(defaultStyle_NTDT_tien_money);
+            NTDT_Gia_3.setStyle(defaultStyle_NTDT_tien_money);NTDT_Gia_4.setStyle(defaultStyle_NTDT_tien_money);
+            NTDT_Gia_5.setStyle(defaultStyle_NTDT_tien_money);NTDT_Gia_6.setStyle(defaultStyle_NTDT_tien_money);
+            NTDT_VND_1.setStyle(defaultStyle_NTDT_tien_money);NTDT_VND_2.setStyle(defaultStyle_NTDT_tien_money);
+            NTDT_VND_3.setStyle(defaultStyle_NTDT_tien_money);NTDT_VND_4.setStyle(defaultStyle_NTDT_tien_money);
+            NTDT_VND_5.setStyle(defaultStyle_NTDT_tien_money);NTDT_VND_6.setStyle(defaultStyle_NTDT_tien_money);
+            selectedValue = null;
+            ManHinhDoi11();
         });
-        XNRT_XacNhan.setOnAction(e -> {
-            ManHinhDoi10();
-        });
-        Move_back_10.setOnAction(e -> {
-            ManHinhDoi10();
-        });
+        NapDienThoai_button.setOnAction(e ->{ManHinhDoi11();});
         Home_10.setOnAction(e -> {
             ManHinhChinh6();
             defaultStyle = "-fx-background-color: #ffffff;-fx-border-color: #000000 ; -fx-background-radius: 4px; -fx-border-radius:4px;";
@@ -1153,11 +1089,12 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
             rt_checkInformation.setVisible(false);
             RT_back();
         });
-        Move_back_11.setOnAction(e->{
-            ManHinhDoi11();
+        Move_back_12.setOnAction(e -> {
+            NTDT_MaPin.setText("");
+            ManHinhDoi12();
         });
-        NapDienThoai_button.setOnAction(e ->{
-            ManHinhDoi11();
+        NTDT_XacThuc.setOnAction(e -> {
+            XacThucMaPinNapDienThoai();
         });
     }
 
@@ -1167,6 +1104,14 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
             String PIN = MaPin.getText();
             String request = Request.Check_Ma_PIN;
             new ClientCore(sdt, PIN, request, (Screen_Interface) this);
+        }).start();
+    }
+    private void XacThucMaPinNapDienThoai() {
+        new Thread(() -> {
+            String sdt = NTDT_sdt_text.getText() ;
+            String PIN = NTDT_MaPin.getText() ;
+            String request = Request.Check_Ma_PIN ;
+            new ClientCore(sdt,PIN,this,request) ;
         }).start();
     }
 
@@ -1232,6 +1177,7 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
         Ten_Tai_Khoan.textProperty().addListener((observable, oldValue, newValue) -> {Check_changeMoney_Empty();});
         So_Tien.textProperty().addListener((observable, oldValue, newValue) -> {Check_changeMoney_Empty();});
         loi_nhan.textProperty().addListener((observable, oldValue, newValue) -> {Check_changeMoney_Empty();});
+        NTDT_MaPin.textProperty().addListener((observable, oldValue, newValue) -> {if(newValue.isEmpty()){System.out.println(newValue);NTDT_XacThuc.setDisable(true);}else{System.out.println(newValue);NTDT_XacThuc.setDisable(false);}});
     }
 
     private void ThanhCong() {
@@ -1254,26 +1200,11 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
 
     /*------------------------------Rút tiền--------------------------------*/
     public void initialize1() {
-        rt_Button_1_5tr.setOnAction(e -> {
-            Handle(rt_Button_1_5tr, "5,000,000");
-            RT_back();
-        });
-        rt_Button_2_3tr.setOnAction(e -> {
-            Handle(rt_Button_2_3tr, "3,000,000");
-            RT_back();
-        });
-        rt_Button_3_2tr.setOnAction(e -> {
-            Handle(rt_Button_3_2tr, "2,000,000");
-            RT_back();
-        });
-        rt_Button_4_1tr.setOnAction(e -> {
-            Handle(rt_Button_4_1tr, "1,000,000");
-            RT_back();
-        });
-        rt_Button_5_soKhac.setOnAction(e -> {
-            RT_Move();
-            Handle(rt_Button_5_soKhac, "Số khác");
-        });
+        rt_Button_1_5tr.setOnAction(e -> {ClickButton_1(rt_Button_1_5tr, "5,000,000");RT_back();});
+        rt_Button_2_3tr.setOnAction(e -> {ClickButton_1(rt_Button_2_3tr, "3,000,000");RT_back();});
+        rt_Button_3_2tr.setOnAction(e -> {ClickButton_1(rt_Button_3_2tr, "2,000,000");RT_back();});
+        rt_Button_4_1tr.setOnAction(e -> {ClickButton_1(rt_Button_4_1tr, "1,000,000");RT_back();});
+        rt_Button_5_soKhac.setOnAction(e -> {RT_Move();ClickButton_1(rt_Button_5_soKhac, "Số khác");});
         rt_SoKhac_tien.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 if (newValue.isEmpty()) {
@@ -1314,6 +1245,12 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
         });
         rt_TiepTuc.setOnAction(e -> {
             System.out.println(selectedValue);
+            XNRT_ten.setText(rt_rutTien_name_1.getText());
+            XNRT_SoTaiKhoan.setText(rt_SoTaiKhoan.getText());
+            XNRT_SoTaiKhoan2.setText(rt_SoTaiKhoan.getText());
+            XNRT_SoTienCanRut.setText(ConvertBalance(BigDecimal.valueOf(Double.parseDouble(selectedValue))));
+            XNRT_SoTienTong.setText(ConvertBalance(BigDecimal.valueOf(Double.parseDouble(selectedValue))));
+            XNRT_SoTienChu.setText(convertNumberToWords(BigDecimal.valueOf(Integer.parseInt(selectedValue))).substring(0,1).toUpperCase() +convertNumberToWords(BigDecimal.valueOf(Integer.parseInt(selectedValue))).substring(1)+" Việt Nam Đồng");
             ManHinhDoi9();
         });
         rt_SoKhac_LuuY.setVisible(false);
@@ -1322,13 +1259,11 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
         rt_checkInformation.setVisible(false);
         rt_warming.setVisible(false);
     }
-    public void Handle(Button button, String value) {
-        if (lastClickedButton != null) {
-            lastClickedButton.setStyle(defaultStyle);
-        }
+    public void ClickButton_1(Button button, String value) {
+        if (lastClickedButton != null) {lastClickedButton.setStyle(defaultStyle);}
         button.setStyle("-fx-background-color: green; -fx-text-fill: white;");
         button.setText(value);
-        lastClickedButton = button;
+        lastClickedButton = button; // Nhận giá trị lasClickButton là button
         if (value.equals("Số khác")) {
             selectedValue = rt_SoKhac_tien.getText();
             rt_information.setStyle("-fx-border-color: black; -fx-border-radius: 5px");
@@ -1379,15 +1314,9 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
     /*--------------------------Nạp tiền số điện thoại -------------------------*/
     private void initialNTSDT(){
         NTDT_button.setDisable(true);
-        SetButtonProperty();
     }
     private void SetButtonProperty(){
-        NTDT_SDT_CuaBanThan.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                NTDT_sdt_text.setText(userID);
-            }
-        });
+        NTDT_SDT_CuaBanThan.setOnAction(new EventHandler<ActionEvent>() {@Override public void handle(ActionEvent event) {NTDT_sdt_text.setText(userID);}});
         NTDT_sdt_text.textProperty().addListener((observable, oldValue, newValue) -> {
             String sdt = newValue ;
             if(sdt.isEmpty()){
@@ -1396,16 +1325,229 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
                 NTDT_button.setDisable(false);
             }
         });
-    }
-    private boolean checkSDT(){
-       return false ;
-    }
+        NTDT_button.setOnAction(e -> {
+            int check = TiepTuc();
+            CountDownLatch latch = new CountDownLatch(2); // Cần 2 luồng phải hoàn thành
+            Thread kiemTraSDT = new Thread(() -> {
+                if( check == 0 ){
+                    kiemTraSoDienThoai = true ;
+                    latch.countDown();
+                }else{
+                    kiemTraSoDienThoai = false;
+                }
+            }) ;
+            Thread kiemTraSTN = new Thread(() -> {
+                String checkSTN = selectedValue != null ? selectedValue.replaceAll(",", "") : "";
+                if(checkSTN.isEmpty()){
+                    kiemTraSoTienNap = false ;
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION) ;
+                        alert.setHeaderText(null);
+                        alert.setContentText("Vui lòng chọn số tiền thanh toán phù hợp");
+                        alert.showAndWait() ;
+                    });
+                }else{
+                    kiemTraSoTienNap = true ;
+                    latch.countDown();
+                }
+            }) ;
 
+            kiemTraSTN.start();
+            kiemTraSDT.start();
+
+            new Thread(() -> {
+                try{
+                    latch.await();
+                    if(kiemTraSoTienNap && kiemTraSoDienThoai){
+                        ManHinhDoi12();
+                    }
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }).start();
+        });
+        NTDT_button_500.setOnAction(e -> {ClickButton_2(NTDT_button_500,NTDT_Gia_1.getText());});
+        NTDT_button_200.setOnAction(e -> {ClickButton_2(NTDT_button_200,NTDT_Gia_2.getText());});
+        NTDT_button_100.setOnAction(e -> {ClickButton_2(NTDT_button_100,NTDT_Gia_3.getText());});
+        NTDT_button_50.setOnAction(e -> {ClickButton_2(NTDT_button_50,NTDT_Gia_4.getText());});
+        NTDT_button_20.setOnAction(e -> {ClickButton_2(NTDT_button_20,NTDT_Gia_5.getText());});
+        NTDT_button_10.setOnAction(e -> {ClickButton_2(NTDT_button_10,NTDT_Gia_6.getText());});
+    }
+    private int checkSDT(String sdt) {
+        if (sdt.length() != 10) {
+            return 1;
+        }
+        if (sdt.charAt(0) != '0') {
+            return 2;
+        }
+        for (int i = 0; i < sdt.length(); i++) {
+            if (!Character.isDigit(sdt.charAt(i))) {
+                return 3;
+            }
+        }
+        return 0; // Valid phone number
+    }
+    private void ClickButton_2(Button button , String value){
+        if(lastButton != null){
+
+            lastButton.setStyle(defaultStyle_2);
+
+            switch (lastButton.getId()){
+                case "NTDT_button_500":
+                    NTDT_Gia_1.setStyle(defaultStyle_NTDT_tien_money);
+                    NTDT_VND_1.setStyle(defaultStyle_NTDT_tien_money);
+                    break;
+                case "NTDT_button_200" :
+                    NTDT_Gia_2.setStyle(defaultStyle_NTDT_tien_money);
+                    NTDT_VND_2.setStyle(defaultStyle_NTDT_tien_money);
+                    break;
+                case "NTDT_button_100" :
+                    NTDT_Gia_3.setStyle(defaultStyle_NTDT_tien_money);
+                    NTDT_VND_3.setStyle(defaultStyle_NTDT_tien_money);
+                    break;
+                case "NTDT_button_50":
+                    NTDT_Gia_4.setStyle(defaultStyle_NTDT_tien_money);
+                    NTDT_VND_4.setStyle(defaultStyle_NTDT_tien_money);
+                    break;
+                case "NTDT_button_20":
+                    NTDT_Gia_5.setStyle(defaultStyle_NTDT_tien_money);
+                    NTDT_VND_5.setStyle(defaultStyle_NTDT_tien_money);
+                    break;
+                case "NTDT_button_10":
+                    NTDT_Gia_6.setStyle(defaultStyle_NTDT_tien_money);
+                    NTDT_VND_6.setStyle(defaultStyle_NTDT_tien_money);
+                    break;
+            }
+        }
+        button.setStyle("-fx-background-color: #c1ddff");
+        String textFill = "-fx-text-fill: #0E46A3;";
+        lastButton = button;
+        selectedValue = value ;
+        int chooseValue , userBalance;
+        switch (button.getId()){
+            case "NTDT_button_500":
+                NTDT_Gia_1.setStyle(textFill);
+                NTDT_VND_1.setStyle(textFill);
+                chooseValue = Integer.parseInt(selectedValue.replaceAll(",","") );
+                System.out.println(chooseValue);
+                userBalance = Integer.parseInt(NTDT_SoTien.getText().replaceAll(",","")) ;
+                if(chooseValue > userBalance){
+                    NTDT_thongBao1.setVisible(true);
+                    NTDT_thongBao1.setText("Tài khoản của bạn không đủ để thực hiện giao dịch này");
+                    NTDT_TaiKhoanNguon.setStyle("-fx-border-color: #299470;");
+                    NTDT_button.setDisable(true);
+                }else{
+                    NTDT_thongBao1.setText("");
+                    NTDT_TaiKhoanNguon.setStyle("-fx-border-color:  #9B86BD;");
+                    NTDT_thongBao1.setVisible(false);
+                    NTDT_button.setDisable(false);
+                }
+                break;
+            case "NTDT_button_200":
+                NTDT_VND_2.setStyle(textFill);
+                NTDT_Gia_2.setStyle(textFill);
+                chooseValue = Integer.parseInt(selectedValue.replaceAll(",","") );
+                System.out.println(chooseValue);
+                userBalance = Integer.parseInt(NTDT_SoTien.getText().replaceAll(",","")) ;
+                if(chooseValue > userBalance){
+                    NTDT_thongBao1.setVisible(true);
+                    NTDT_thongBao1.setText("Tài khoản của bạn không đủ để thực hiện giao dịch này");
+                    NTDT_TaiKhoanNguon.setStyle("-fx-border-color: #299470;");
+                    NTDT_button.setDisable(true);
+                }else{
+                    NTDT_thongBao1.setText("");
+                    NTDT_TaiKhoanNguon.setStyle("-fx-border-color:  #9B86BD;");
+                    NTDT_thongBao1.setVisible(false);
+                    NTDT_button.setDisable(false);
+                }
+                break;
+            case "NTDT_button_100" :
+                NTDT_Gia_3.setStyle(textFill);
+                NTDT_VND_3.setStyle(textFill);
+                chooseValue = Integer.parseInt(selectedValue.replaceAll(",","") );
+                System.out.println(chooseValue);
+                userBalance = Integer.parseInt(NTDT_SoTien.getText().replaceAll(",","")) ;
+                if(chooseValue > userBalance){
+                    NTDT_thongBao1.setVisible(true);
+                    NTDT_thongBao1.setText("Tài khoản của bạn không đủ để thực hiện giao dịch này");
+                    NTDT_TaiKhoanNguon.setStyle("-fx-border-color: #299470;");
+                    NTDT_button.setDisable(true);
+                }else{
+                    NTDT_thongBao1.setText("");
+                    NTDT_TaiKhoanNguon.setStyle("-fx-border-color:  #9B86BD;");
+                    NTDT_thongBao1.setVisible(false);
+                    NTDT_button.setDisable(false);
+                }
+                break;
+            case "NTDT_button_50":
+                NTDT_Gia_4.setStyle(textFill);
+                NTDT_VND_4.setStyle(textFill);
+                chooseValue = Integer.parseInt(selectedValue.replaceAll(",","") );
+                System.out.println(chooseValue);
+                userBalance = Integer.parseInt(NTDT_SoTien.getText().replaceAll(",","")) ;
+                if(chooseValue > userBalance){
+                    NTDT_thongBao1.setVisible(true);
+                    NTDT_thongBao1.setText("Tài khoản của bạn không đủ để thực hiện giao dịch này");
+                    NTDT_TaiKhoanNguon.setStyle("-fx-border-color: #299470;");
+                    NTDT_button.setDisable(true);
+                }else{
+                    NTDT_thongBao1.setText("");
+                    NTDT_TaiKhoanNguon.setStyle("-fx-border-color:  #9B86BD;");
+                    NTDT_thongBao1.setVisible(false);
+                    NTDT_button.setDisable(false);
+                }
+                break;
+            case "NTDT_button_20":
+                NTDT_Gia_5.setStyle(textFill);
+                NTDT_VND_5.setStyle(textFill);
+                chooseValue = Integer.parseInt(selectedValue.replaceAll(",","") );
+                System.out.println(chooseValue);
+                userBalance = Integer.parseInt(NTDT_SoTien.getText().replaceAll(",","")) ;
+                if(chooseValue > userBalance){
+                    NTDT_thongBao1.setVisible(true);
+                    NTDT_thongBao1.setText("Tài khoản của bạn không đủ để thực hiện giao dịch này");
+                    NTDT_TaiKhoanNguon.setStyle("-fx-border-color: #299470;");
+                    NTDT_button.setDisable(true);
+                }else{
+                    NTDT_thongBao1.setText("");
+                    NTDT_TaiKhoanNguon.setStyle("-fx-border-color:  #9B86BD;");
+                    NTDT_thongBao1.setVisible(false);
+                    NTDT_button.setDisable(false);
+                }
+                break;
+            case "NTDT_button_10":
+                NTDT_Gia_6.setStyle(textFill);
+                NTDT_VND_6.setStyle(textFill);
+                chooseValue = Integer.parseInt(selectedValue.replaceAll(",","") );
+                System.out.println(chooseValue);
+                userBalance = Integer.parseInt(NTDT_SoTien.getText().replaceAll(",","")) ;
+                if(chooseValue > userBalance){
+                    NTDT_thongBao1.setVisible(true);
+                    NTDT_thongBao1.setText("Tài khoản của bạn không đủ để thực hiện giao dịch này");
+                    NTDT_TaiKhoanNguon.setStyle("-fx-border-color: #299470;");
+                    NTDT_button.setDisable(true);
+                }else{
+                    NTDT_thongBao1.setText("");
+                    NTDT_TaiKhoanNguon.setStyle("-fx-border-color:  #9B86BD;");
+                    NTDT_thongBao1.setVisible(false);
+                    NTDT_button.setDisable(false);
+                }
+                break;
+        }
+    }
+    private int TiepTuc() {
+        int check = checkSDT(NTDT_sdt_text.getText());
+        switch (check) {
+            case 1: Platform.runLater(() -> {NTDT_thongBao.setVisible(true);NTDT_thongBao.setText("Vui lòng nhập số điện thoại có độ dài 10 ký tự");});break;
+            case 2: Platform.runLater(() -> {NTDT_thongBao.setVisible(true);NTDT_thongBao.setText("Số điện thoại phải bắt đầu bằng số 0");});break;
+            case 3: Platform.runLater(() -> {NTDT_thongBao.setVisible(true);NTDT_thongBao.setText("Số điện thoại không được có kí tự khác chữ số!");});break;
+            case 0: Platform.runLater(() -> {NTDT_thongBao.setVisible(false);NTDT_thongBao.setText("");});break;
+        }
+        return check ;
+    }
 
     /*-------------------------------------------------------------------------------*/
-    private void setthoiGianChuyen(String thoiGian) {
-        ThoiGian.setText(thoiGian);
-    }
+    private void setthoiGianChuyen(String thoiGian) {ThoiGian.setText(thoiGian);}
 
     // Phần chuyển tiền
     private static final String[] units = {"", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"};
@@ -1468,14 +1610,14 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
             SetTextProperty();
             initialize1();
             initialNTSDT();
+            SetButtonProperty();
         });
     }
 
     public void AutoUpdateTheBalance() {
         String sdt = user_SDT_1.getText();
         String request = Request.Auto_Update_Balance;
-        new ClientCore(this, sdt, request);
-    }
+        new ClientCore(this, sdt, request);}
     @Override public void GetUserNameSuccess(String account) {
         Platform.runLater(() -> {
             if (account.equals(user_name_2.getText())) {
@@ -1509,18 +1651,10 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
     /*LoginBack*/
     @Override public void onLoginSuccess() {}
     @Override public void onLoginFailure(String message) {}
-    @Override public void OnSignUpSuccess() {}
+    @Override public void OnSignUpSuccess(String fullName , String sdt) {}
     @Override public void OnSignUpFailure(String message) {}
-    @Override public void logOutSuccess() {
-        Platform.runLater(() -> {
-            backToSignIn();
-        });
-    }
-    @Override public void Check_Last_Password(String mes) {
-        Platform.runLater(() -> {
-            pass_check.setText(mes);
-        });
-    }
+    @Override public void logOutSuccess() {Platform.runLater(() -> {backToSignIn();});}
+    @Override public void Check_Last_Password(String mes) {Platform.runLater(() -> {pass_check.setText(mes);});}
     @Override public void Change_Password_Success() {
         Platform.runLater(() -> {
             ManHinhChinh1();
@@ -1565,11 +1699,7 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
             alert.showAndWait();
         });
     }
-    @Override public void Chuyen_Tien_Thanh_Cong() {
-        Platform.runLater(() -> {
-            ManHinhDoi6();
-        });
-    }
+    @Override public void Chuyen_Tien_Thanh_Cong() {Platform.runLater(() -> {ManHinhDoi6();});}
     @Override public void Chuyen_Tien_Khong_Thanh_Cong() {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -1579,9 +1709,5 @@ public class ScreenController implements Initializable, LoginCallBack, Screen_In
         });
     }
     @Override public void Lay_Du_Lieu_Thanh_Cong(String fullName, BigDecimal balance) {}
-    @Override public void UpdateBalance(BigDecimal balance) {
-        Platform.runLater(() -> {
-            setBalance(balance);
-        });
-    }
+    @Override public void UpdateBalance(BigDecimal balance) {Platform.runLater(() -> {setBalance(balance);});}
 }

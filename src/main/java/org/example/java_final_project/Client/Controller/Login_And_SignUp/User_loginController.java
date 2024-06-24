@@ -27,33 +27,23 @@ import java.util.TimerTask;
 public class User_loginController implements Initializable,LoginCallBack, Screen_Interface {
 
     /*Text Filed*/
-    @FXML
-    private TextField SDT_text;
-    @FXML
-    private TextField pass;
+    @FXML private TextField SDT_text;
+    @FXML private TextField pass;
 
     /*ImageView*/
-    @FXML
-    private ImageView close_eye;
-    @FXML
-    private ImageView open_eye;
+    @FXML private ImageView close_eye;
+    @FXML private ImageView open_eye;
 
     /*Button*/
-    @FXML
-    private Button login_button;
-    @FXML
-    private Button signUpButton;
+    @FXML private Button login_button;
+    @FXML private Button signUpButton;
 
     /*Other*/
-    @FXML
-    private PasswordField pass_hide;
-    @FXML
-    private Label information;
+    @FXML private PasswordField pass_hide;
+    @FXML private Label information;
     private Stage prevStage ;
     private String password;
     private String User_ID ;
-
-
 
     public void setPrevStage(Stage stage) { // Lấy dữ liệu từ stage cũ để chuyển stage mới
         this.prevStage = stage;
@@ -101,18 +91,9 @@ public class User_loginController implements Initializable,LoginCallBack, Screen
         information.setVisible(false);
         pass.setVisible(false);
         open_eye.setVisible(false);
-        SDT_text.textProperty().addListener((observable, oldValue, newValue) -> {
-            CheckFields();
-            information.setVisible(false);
-        });
-        pass.textProperty().addListener((observable, oldValue, newValue) -> {
-            CheckFields();
-            information.setVisible(false);
-        });
-        pass_hide.textProperty().addListener((observable, oldValue, newValue) -> {
-            CheckFields();
-            information.setVisible(false);
-        });
+        SDT_text.textProperty().addListener((observable, oldValue, newValue) -> {CheckFields();information.setVisible(false);});
+        pass.textProperty().addListener((observable, oldValue, newValue) -> {CheckFields();information.setVisible(false);});
+        pass_hide.textProperty().addListener((observable, oldValue, newValue) -> {CheckFields();information.setVisible(false);});
         signUpButton.setOnAction(e -> changeScene());
         login_button.setOnAction(e -> sendData());
     }
@@ -168,7 +149,7 @@ public class User_loginController implements Initializable,LoginCallBack, Screen
                 screenController.setBalance(balance); ;
 
 
-                Scene scene2 = new Scene(root, 338, 564);
+                Scene scene2 = new Scene(root, 340, 564);
                 prevStage.setScene(scene2);
                 prevStage.show();
             } catch (Exception e) {
@@ -192,7 +173,7 @@ public class User_loginController implements Initializable,LoginCallBack, Screen
     }
 
     @Override
-    public void OnSignUpSuccess() {
+    public void OnSignUpSuccess(String fullName , String SDT) {
 
     }
 

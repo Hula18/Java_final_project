@@ -1,5 +1,5 @@
 .XacNhan{
-    -fx-background-color:  #111ecd;
+    -fx-background-color: #10439F;
     -fx-background-radius: 4px;
     -fx-text-fill: white;
 }
@@ -8,11 +8,20 @@
     -fx-text-fill: black;
 }
 .SDT {
-    -fx-background-color:  #5A639C;
+    -fx-background-color:  #5A639C ;
     -fx-background-radius: 30px;
     -fx-text-fill: #ffffff;
 }
 .SDT:hover{
     -fx-background-color: #E2BBE9;
+    -fx-text-fill: black;
+}
+
+.NTTC{
+    -fx-background-color:  #5A639C;
+    -fx-text-fill: white;
+}
+.NTTC:hover{
+    -fx-background-color: White;
     -fx-text-fill: black;
 }

@@ -1,8 +1,6 @@
 package org.example.java_final_project.Client.Controller.Handle;
 
 import javafx.application.Platform;
-import javafx.scene.control.Label;
-import org.example.java_final_project.Client.Controller.Bank.ScreenController;
 import org.example.java_final_project.Client.Controller.Interface.LoginCallBack;
 import org.example.java_final_project.Client.Controller.Interface.Screen_Interface;
 import org.example.java_final_project.Model.Request;
@@ -57,7 +55,7 @@ public class ClientCore {
                         int SignUpCheck = getSuccess(socket);
                         System.out.println(SignUpCheck);
                         Platform.runLater(() -> {
-                            if(SignUpCheck == 1) loginCallBack.OnSignUpSuccess();
+                            if(SignUpCheck == 1) loginCallBack.OnSignUpSuccess(Ho+" "+Ten,SDT);
                             else if(SignUpCheck == 2) loginCallBack.OnSignUpFailure("SDT đã có tài khoản!");
                             else loginCallBack.OnSignUpFailure("không thể đăng ký");
                         });
@@ -263,6 +261,23 @@ public class ClientCore {
             }
         };
         new Thread(updateBalance).start();
+    }
+    public ClientCore(String sdt , String PIN , Screen_Interface screenInterface , String request){
+        this.socket = Client.getConnect() ;
+        this.screenInterface = screenInterface ;
+        Runnable checkMaPIN = new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    int n = Get_SendRequest(request,socket) ;
+                    if( n == 1 ){
+
+                    }
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        } ;
     }
 
     public void SendRequest(String request, Socket socket) {

@@ -234,13 +234,14 @@ public class User_Sign_UpController implements Initializable , LoginCallBack {
             e.printStackTrace();
         }
     }
-    public void changeToMainScene() {
+    public void changeToMainScene(String fullName , String sdt) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("MainScreen.fxml"));
             Parent root = fxmlLoader.load();
             ScreenController screenController = fxmlLoader.getController();
             screenController.setPrevStage(preSignInStage);
-            screenController.setUserID(getUser_SDT());
+            screenController.setUserID(sdt);
+            screenController.setUserName(fullName);
 
             Scene scene2 = new Scene(root, 338, 564);
             preSignInStage.setScene(scene2);
@@ -261,9 +262,8 @@ public class User_Sign_UpController implements Initializable , LoginCallBack {
 
     // Sign up
     @Override
-    public void OnSignUpSuccess() {
-        setUser_SDT(SDT_user.getText());
-        changeToMainScene();
+    public void OnSignUpSuccess(String fullName , String SDT) {
+        changeToMainScene(fullName,SDT);
     }
 
     @Override
